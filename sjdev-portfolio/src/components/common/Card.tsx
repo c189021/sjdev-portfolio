@@ -3,7 +3,7 @@
 // 재사용 가능한 카드 컴포넌트
 // ============================================
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { cn } from "../../utils/helpers";
 
 interface CardProps {

@@ -3,7 +3,7 @@
 // 재사용 가능한 버튼 컴포넌트
 // ============================================
 
-import { ReactNode, ButtonHTMLAttributes } from "react";
+import type { ReactNode, ButtonHTMLAttributes } from "react";
 import { cn } from "../../utils/helpers";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -56,9 +56,9 @@ const Button = ({
       )}
       {...props}
     >
-      {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+      {leftIcon && <span className="shrink-0">{leftIcon}</span>}
       {children}
-      {rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+      {rightIcon && <span className="shrink-0">{rightIcon}</span>}
     </button>
   );
 };

@@ -40,7 +40,7 @@ const DataStream = () => {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full bg-gradient-to-b from-emerald-400/60 to-blue-400/40"
+          className="absolute rounded-full bg-linear-to-b from-emerald-400/60 to-blue-400/40"
           style={{
             left: `${particle.x}%`,
             width: particle.size,
@@ -64,7 +64,7 @@ const DataStream = () => {
       {Array.from({ length: 8 }).map((_, i) => (
         <motion.div
           key={`line-${i}`}
-          className="absolute w-px bg-gradient-to-b from-transparent via-emerald-500/30 to-transparent"
+          className="absolute w-px bg-linear-to-b from-transparent via-emerald-500/30 to-transparent"
           style={{
             left: `${10 + i * 12}%`,
             height: "100px",
@@ -126,11 +126,11 @@ const CoreArchitectureBadge = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
       >
-        <span className="w-8 h-px bg-gradient-to-r from-transparent to-slate-600" />
+        <span className="w-8 h-px bg-linear-to-r from-transparent to-slate-600" />
         <span className="uppercase tracking-widest text-xs">
           Core Architecture
         </span>
-        <span className="w-8 h-px bg-gradient-to-l from-transparent to-slate-600" />
+        <span className="w-8 h-px bg-linear-to-l from-transparent to-slate-600" />
       </motion.div>
 
       {/* Tech Stack Badges */}
@@ -144,7 +144,7 @@ const CoreArchitectureBadge = () => {
             transition={{ delay: 1.5 + index * 0.15, duration: 0.4 }}
             whileHover={{ scale: 1.05, y: -2 }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-linear-to-r from-emerald-500/20 to-blue-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="relative flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/50 backdrop-blur-sm hover:border-emerald-500/30 transition-all duration-300">
               <span className="text-lg">{tech.icon}</span>
               <span className="text-sm font-medium text-slate-200">
@@ -163,10 +163,10 @@ const CoreArchitectureBadge = () => {
         transition={{ delay: 2, duration: 0.5 }}
         whileHover={{ scale: 1.02 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-emerald-500/10 rounded-2xl blur-2xl" />
-        <div className="relative flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm">
+        <div className="absolute inset-0 bg-linear-to-r from-emerald-500/10 via-blue-500/10 to-emerald-500/10 rounded-2xl blur-2xl" />
+        <div className="relative flex items-center gap-3 px-6 py-3 rounded-2xl bg-linear-to-r from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm">
           {/* API Icon */}
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-blue-500/20 border border-emerald-500/30">
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-emerald-500/20 to-blue-500/20 border border-emerald-500/30">
             <svg
               className="w-5 h-5 text-emerald-400"
               fill="none"
@@ -232,7 +232,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },
   };
@@ -246,7 +246,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Orbs */}
         <motion.div
-          className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-emerald-500/15 rounded-full blur-[128px]"
+          className="absolute top-1/4 -left-1/4 w-150 h-150 bg-emerald-500/15 rounded-full blur-[128px]"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.15, 0.25, 0.15],
@@ -258,7 +258,7 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 -right-1/4 w-[600px] h-[600px] bg-blue-500/15 rounded-full blur-[128px]"
+          className="absolute bottom-1/4 -right-1/4 w-150 h-150 bg-blue-500/15 rounded-full blur-[128px]"
           animate={{
             scale: [1.2, 1, 1.2],
             opacity: [0.15, 0.25, 0.15],
@@ -330,11 +330,11 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
             variants={itemVariants}
           >
-            <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+            <span className="bg-linear-to-r from-emerald-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent bg-size-[200%_auto] animate-gradient">
               데이터의 흐름
             </span>
             과 <br className="hidden sm:block" />
-            <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+            <span className="bg-linear-to-r from-blue-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent bg-size-[200%_auto] animate-gradient">
               시스템의 안정성
             </span>
             을 설계하는
@@ -346,11 +346,11 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           >
             <span className="text-slate-300">개발자,</span>
             <span className="relative">
-              <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
                 {PERSONAL_INFO.name}
               </span>
               <motion.span
-                className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full"
+                className="absolute -bottom-1 left-0 w-full h-1 bg-linear-to-r from-emerald-500 to-blue-500 rounded-full"
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 1, duration: 0.6 }}

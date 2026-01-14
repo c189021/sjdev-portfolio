@@ -85,5 +85,19 @@ export interface NavSection {
   icon?: string;
 }
 
+// 스킬 그룹 타입 (도메인별)
+export interface SkillGroup {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  color: "emerald" | "blue" | "purple" | "orange";
+  skills: {
+    name: string;
+    level: number; // 1-100
+    detail?: string;
+  }[];
+}
+
 // 테마 타입
 export type ThemeMode = "dark" | "light";

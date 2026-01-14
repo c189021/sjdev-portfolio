@@ -29,7 +29,7 @@ function App() {
     <div className="relative min-h-screen bg-navy-950">
       {/* ===== Scroll Progress Bar ===== */}
       <div
-        className="fixed top-0 left-0 h-0.5 bg-gradient-to-r from-emerald-500 to-blue-500 z-[100] transition-all duration-150"
+        className="fixed top-0 left-0 h-0.5 bg-linear-to-r from-emerald-500 to-blue-500 z-100 transition-all duration-150"
         style={{ width: `${scrollProgress}%` }}
       />
 

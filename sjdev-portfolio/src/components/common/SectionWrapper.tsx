@@ -3,7 +3,7 @@
 // 섹션 공통 래퍼 (애니메이션, 레이아웃)
 // ============================================
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useIntersectionObserver } from "../../hooks";
 import { cn } from "../../utils/helpers";
 

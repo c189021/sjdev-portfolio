@@ -42,7 +42,7 @@ const ExperienceSection = () => {
       {/* Timeline */}
       <div className="relative">
         {/* Timeline Line */}
-        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-500/50 via-blue-500/50 to-transparent transform md:-translate-x-1/2" />
+        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-emerald-500/50 via-blue-500/50 to-transparent transform md:-translate-x-1/2" />
 
         {/* Timeline Items */}
         <div className="space-y-12">
@@ -54,7 +54,7 @@ const ExperienceSection = () => {
               }`}
             >
               {/* Timeline Dot */}
-              <div className="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 transform -translate-x-1.5 md:-translate-x-1/2 ring-4 ring-navy-950" />
+              <div className="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-linear-to-r from-emerald-500 to-blue-500 transform -translate-x-1.5 md:-translate-x-1/2 ring-4 ring-navy-950" />
 
               {/* Spacer for alternating layout */}
               <div className="hidden md:block md:w-1/2" />

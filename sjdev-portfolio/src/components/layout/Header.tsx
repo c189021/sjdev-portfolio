@@ -85,13 +85,13 @@ const Header = ({ sections, activeSection, onNavigate }: HeaderProps) => {
           {/* Logo */}
           <motion.button
             onClick={() => handleNavClick("hero")}
-            className="relative text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+            className="relative text-xl md:text-2xl font-bold bg-linear-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             SJ.dev
             <motion.span
-              className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full"
+              className="absolute -bottom-1 left-0 h-0.5 bg-linear-to-r from-emerald-500 to-blue-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
               transition={{ delay: 0.5, duration: 0.4 }}
@@ -135,7 +135,7 @@ const Header = ({ sections, activeSection, onNavigate }: HeaderProps) => {
                 e.preventDefault();
                 handleNavClick("contact");
               }}
-              className="ml-4 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-blue-500 text-white text-sm font-medium hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200"
+              className="ml-4 px-5 py-2.5 rounded-lg bg-linear-to-r from-emerald-500 to-blue-500 text-white text-sm font-medium hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.3 }}

@@ -1,9 +1,10 @@
 // ============================================
 // 📧 ContactSection Component
-// 연락처 섹션
+// 연락처 섹션 with Framer Motion
 // ============================================
 
-import { SectionWrapper, SectionTitle, Card, Button } from "../common";
+import { motion } from "framer-motion";
+import { SectionWrapper, SectionTitle, Button } from "../common";
 import { PERSONAL_INFO } from "../../constants/data";
 
 const ContactSection = () => {
@@ -21,6 +22,7 @@ const ContactSection = () => {
       label: "GitHub",
       value: "github.com/yourusername",
       href: PERSONAL_INFO.contact.github,
+      color: "hover:text-white hover:bg-slate-700/50",
     },
     {
       icon: (
@@ -41,6 +43,7 @@ const ContactSection = () => {
       label: "Email",
       value: PERSONAL_INFO.contact.email,
       href: `mailto:${PERSONAL_INFO.contact.email}`,
+      color: "hover:text-emerald-400 hover:bg-emerald-500/10",
     },
     {
       icon: (
@@ -51,6 +54,7 @@ const ContactSection = () => {
       label: "LinkedIn",
       value: "linkedin.com/in/yourusername",
       href: PERSONAL_INFO.contact.linkedin || "#",
+      color: "hover:text-blue-400 hover:bg-blue-500/10",
     },
   ];
 
@@ -59,64 +63,119 @@ const ContactSection = () => {
       <div className="max-w-4xl mx-auto">
         <SectionTitle
           title="Contact"
-          subtitle="함께 일하고 싶으시다면 언제든 연락주세요"
+          subtitle="함께 성장할 기회를 기다리고 있습니다"
         />
 
         {/* Main CTA Card */}
-        <Card className="text-center p-8 md:p-12 mb-8" glow>
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-blue-500/20 mb-6">
-            <span className="text-4xl">👋</span>
+        <motion.div
+          className="relative rounded-2xl border border-slate-800/50 bg-slate-900/30 backdrop-blur-sm p-8 md:p-12 mb-8 overflow-hidden"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Background Gradient */}
+          <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 via-transparent to-blue-500/5 pointer-events-none" />
+
+          <div className="relative text-center">
+            {/* Icon */}
+            <motion.div
+              className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-linear-to-br from-emerald-500/20 to-blue-500/20 mb-6"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+            >
+              <span className="text-4xl">💬</span>
+            </motion.div>
+
+            {/* Title */}
+            <motion.h3
+              className="text-2xl md:text-3xl font-bold text-white mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              함께 성장할 동료를 찾으신다면
+            </motion.h3>
+
+            {/* Description - 요청된 문구 */}
+            <motion.p
+              className="text-slate-400 max-w-2xl mx-auto mb-8 text-base md:text-lg leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              안정적인 시스템 설계와 사용자 중심의 인터페이스 구축에 관심이
+              많습니다.
+              <br className="hidden md:block" />
+              <span className="text-emerald-400 font-medium">
+                함께 성장할 동료를 찾으신다면 연락 주세요.
+              </span>
+            </motion.p>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <Button
+                variant="primary"
+                size="lg"
+                leftIcon={
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                }
+                onClick={() =>
+                  window.open(`mailto:${PERSONAL_INFO.contact.email}`, "_blank")
+                }
+              >
+                이메일 보내기
+              </Button>
+            </motion.div>
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            새로운 기회를 찾고 있습니다
-          </h3>
-
-          <p className="text-slate-400 max-w-xl mx-auto mb-8">
-            인턴십, 프로젝트 협업, 스터디 등 다양한 기회에 열려 있습니다.
-            <br />
-            함께 성장할 수 있는 기회라면 언제든 환영합니다!
-          </p>
-
-          <Button
-            variant="primary"
-            size="lg"
-            leftIcon={
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            }
-            onClick={() =>
-              window.open(`mailto:${PERSONAL_INFO.contact.email}`, "_blank")
-            }
-          >
-            이메일 보내기
-          </Button>
-        </Card>
+          {/* Decorative Elements */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+        </motion.div>
 
         {/* Contact Methods */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {contactMethods.map((method) => (
-            <a
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {contactMethods.map((method, index) => (
+            <motion.a
               key={method.label}
               href={method.href}
               target="_blank"
               rel="noopener noreferrer"
               className="group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
+              whileHover={{ y: -4 }}
             >
-              <Card className="text-center h-full transition-all duration-300 group-hover:border-emerald-500/50">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-xl bg-slate-800/50 flex items-center justify-center text-slate-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-all duration-300 mb-4">
+              <div className="h-full p-6 rounded-xl border border-slate-800/50 bg-slate-900/30 backdrop-blur-sm transition-all duration-300 group-hover:border-emerald-500/30">
+                <div className="flex flex-col items-center text-center">
+                  <div
+                    className={`w-12 h-12 rounded-xl bg-slate-800/50 flex items-center justify-center text-slate-400 transition-all duration-300 mb-4 ${method.color}`}
+                  >
                     {method.icon}
                   </div>
                   <h4 className="font-semibold text-white mb-1">
@@ -126,10 +185,21 @@ const ContactSection = () => {
                     {method.value}
                   </p>
                 </div>
-              </Card>
-            </a>
+              </div>
+            </motion.a>
           ))}
         </div>
+
+        {/* Footer Note */}
+        <motion.p
+          className="text-center text-sm text-slate-500 mt-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 1 }}
+        >
+          인턴십, 프로젝트 협업, 스터디 등 다양한 기회에 열려 있습니다 🚀
+        </motion.p>
       </div>
     </SectionWrapper>
   );

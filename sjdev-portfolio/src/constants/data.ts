@@ -118,6 +118,52 @@ export const TECH_STACKS: TechStack[] = [
   },
 ];
 
+// 도메인별 스킬 그룹 (새로운 Skills 섹션용)
+import type { SkillGroup } from "../types";
+
+export const SKILL_GROUPS: SkillGroup[] = [
+  {
+    id: "backend",
+    title: "Backend",
+    icon: "🍃",
+    description: "안정적인 서버 아키텍처와 효율적인 데이터 처리",
+    color: "emerald",
+    skills: [
+      {
+        name: "Spring Boot",
+        level: 85,
+        detail: "RESTful API 설계 / JPA 최적화",
+      },
+      { name: "Java", level: 85, detail: "OOP 원칙 / Clean Code" },
+      { name: "MySQL", level: 80, detail: "DB 스키마 설계 / 쿼리 최적화" },
+    ],
+  },
+  {
+    id: "frontend",
+    title: "Frontend",
+    icon: "⚛️",
+    description: "사용자 중심의 직관적인 인터페이스 구현",
+    color: "blue",
+    skills: [
+      { name: "React", level: 80, detail: "Hooks / 상태관리" },
+      { name: "TypeScript", level: 75, detail: "타입 안정성 확보" },
+      { name: "Tailwind CSS", level: 85, detail: "v4 / 반응형 디자인" },
+    ],
+  },
+  {
+    id: "tools",
+    title: "Tools & Collaboration",
+    icon: "🛠️",
+    description: "API 명세 관리 및 팀 협업 능력",
+    color: "purple",
+    skills: [
+      { name: "Swagger", level: 80, detail: "API 문서 자동화" },
+      { name: "Postman", level: 85, detail: "API 테스트 / 협업" },
+      { name: "Git", level: 85, detail: "브랜치 전략 / 코드 리뷰" },
+    ],
+  },
+];
+
 // 프로젝트
 export const PROJECTS: Project[] = [
   {
