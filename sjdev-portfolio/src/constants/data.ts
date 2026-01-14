@@ -33,6 +33,7 @@ export const NAV_SECTIONS: NavSection[] = [
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
   { id: "metrics", label: "Metrics" },
+  { id: "api", label: "API" },
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
@@ -420,5 +421,235 @@ export const METRIC_CARDS: MetricCard[] = [
     icon: "📊",
     description: "SonarQube 분석 결과",
     color: "orange",
+  },
+];
+
+// API 엔드포인트 명세
+import type { ApiEndpoint } from "../types";
+
+export const API_ENDPOINTS: ApiEndpoint[] = [
+  {
+    id: "get-projects",
+    method: "GET",
+    path: "/api/v1/projects",
+    summary: "프로젝트 목록 조회",
+    description: "페이지네이션과 필터링이 적용된 프로젝트 목록을 반환합니다.",
+    tags: [
+      { label: "JPA Fetch Join", type: "optimization" },
+      { label: "Redis Cached", type: "cache" },
+    ],
+    parameters: [
+      { name: "page", in: "query", type: "integer", required: false, description: "페이지 번호 (default: 0)" },
+      { name: "size", in: "query", type: "integer", required: false, description: "페이지 크기 (default: 10)" },
+      { name: "category", in: "query", type: "string", required: false, description: "카테고리 필터" },
+    ],
+    response: {
+      status: 200,
+      contentType: "application/json",
+      example: `{
+  "success": true,
+  "data": {
+    "content": [
+      {
+        "id": 1,
+        "title": "Portfolio Website",
+        "category": "FULLSTACK",
+        "techStack": ["React", "Spring Boot", "MySQL"],
+        "thumbnailUrl": "/images/project-1.png",
+        "createdAt": "2024-01-15T09:00:00Z"
+      }
+    ],
+    "pageable": {
+      "pageNumber": 0,
+      "pageSize": 10,
+      "totalElements": 25,
+      "totalPages": 3
+    }
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
+}`,
+    },
+  },
+  {
+    id: "get-project-detail",
+    method: "GET",
+    path: "/api/v1/projects/{id}",
+    summary: "프로젝트 상세 조회",
+    description: "프로젝트 ID로 상세 정보를 조회합니다. N+1 문제를 해결한 최적화된 쿼리를 사용합니다.",
+    tags: [
+      { label: "N+1 Resolved", type: "optimization" },
+      { label: "Index Tuned", type: "index" },
+    ],
+    parameters: [
+      { name: "id", in: "path", type: "long", required: true, description: "프로젝트 고유 ID" },
+    ],
+    response: {
+      status: 200,
+      contentType: "application/json",
+      example: `{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Portfolio Website",
+    "description": "React + Spring Boot 풀스택 포트폴리오",
+    "category": "FULLSTACK",
+    "techStack": [
+      { "name": "React", "version": "18.2.0" },
+      { "name": "Spring Boot", "version": "3.2.0" },
+      { "name": "MySQL", "version": "8.0" }
+    ],
+    "features": [
+      "반응형 디자인",
+      "JWT 인증",
+      "RESTful API"
+    ],
+    "githubUrl": "https://github.com/user/project",
+    "demoUrl": "https://demo.project.com",
+    "createdAt": "2024-01-15T09:00:00Z",
+    "updatedAt": "2024-01-20T14:30:00Z"
+  }
+}`,
+    },
+  },
+  {
+    id: "post-optimization",
+    method: "POST",
+    path: "/api/v1/optimization/analyze",
+    summary: "쿼리 성능 분석",
+    description: "제출된 쿼리의 실행 계획을 분석하고 최적화 제안을 반환합니다.",
+    tags: [
+      { label: "Explain Analyze", type: "optimization" },
+      { label: "Index Suggestion", type: "index" },
+    ],
+    requestBody: {
+      contentType: "application/json",
+      example: `{
+  "query": "SELECT * FROM projects WHERE category = ?",
+  "parameters": ["FULLSTACK"],
+  "targetTable": "projects"
+}`,
+    },
+    response: {
+      status: 200,
+      contentType: "application/json",
+      example: `{
+  "success": true,
+  "data": {
+    "executionTime": "12ms",
+    "rowsExamined": 150,
+    "rowsReturned": 25,
+    "indexUsed": "idx_projects_category",
+    "suggestions": [
+      {
+        "type": "COVERING_INDEX",
+        "description": "커버링 인덱스 추가 권장",
+        "expectedImprovement": "40%"
+      }
+    ],
+    "explainPlan": "Using index condition"
+  }
+}`,
+    },
+  },
+  {
+    id: "post-auth-login",
+    method: "POST",
+    path: "/api/v1/auth/login",
+    summary: "사용자 로그인",
+    description: "이메일과 비밀번호로 인증 후 JWT 토큰을 발급합니다.",
+    tags: [
+      { label: "BCrypt Hashed", type: "security" },
+      { label: "JWT Token", type: "security" },
+    ],
+    requestBody: {
+      contentType: "application/json",
+      example: `{
+  "email": "user@example.com",
+  "password": "********"
+}`,
+    },
+    response: {
+      status: 200,
+      contentType: "application/json",
+      example: `{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "user": {
+      "id": 1,
+      "email": "user@example.com",
+      "name": "홍길동",
+      "role": "USER"
+    }
+  }
+}`,
+    },
+  },
+  {
+    id: "put-project-update",
+    method: "PUT",
+    path: "/api/v1/projects/{id}",
+    summary: "프로젝트 수정",
+    description: "프로젝트 정보를 수정합니다. 낙관적 락(Optimistic Lock)을 적용하여 동시성을 제어합니다.",
+    tags: [
+      { label: "@Version Lock", type: "validation" },
+      { label: "DTO Validation", type: "validation" },
+    ],
+    parameters: [
+      { name: "id", in: "path", type: "long", required: true, description: "프로젝트 고유 ID" },
+    ],
+    requestBody: {
+      contentType: "application/json",
+      example: `{
+  "title": "Updated Portfolio",
+  "description": "수정된 프로젝트 설명",
+  "category": "FULLSTACK",
+  "techStack": ["React", "Spring Boot", "PostgreSQL"],
+  "version": 2
+}`,
+    },
+    response: {
+      status: 200,
+      contentType: "application/json",
+      example: `{
+  "success": true,
+  "message": "프로젝트가 성공적으로 수정되었습니다.",
+  "data": {
+    "id": 1,
+    "title": "Updated Portfolio",
+    "version": 3,
+    "updatedAt": "2024-01-21T16:45:00Z"
+  }
+}`,
+    },
+  },
+  {
+    id: "delete-project",
+    method: "DELETE",
+    path: "/api/v1/projects/{id}",
+    summary: "프로젝트 삭제",
+    description: "프로젝트를 소프트 삭제합니다. 연관 데이터는 CASCADE 정책에 따라 처리됩니다.",
+    tags: [
+      { label: "Soft Delete", type: "optimization" },
+      { label: "Cascade Policy", type: "validation" },
+    ],
+    parameters: [
+      { name: "id", in: "path", type: "long", required: true, description: "프로젝트 고유 ID" },
+    ],
+    response: {
+      status: 200,
+      contentType: "application/json",
+      example: `{
+  "success": true,
+  "message": "프로젝트가 삭제되었습니다.",
+  "data": {
+    "id": 1,
+    "deletedAt": "2024-01-22T10:00:00Z"
+  }
+}`
+    },
   },
 ];

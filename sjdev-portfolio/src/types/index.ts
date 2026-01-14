@@ -120,3 +120,36 @@ export interface MetricCard {
 
 // 테마 타입
 export type ThemeMode = "dark" | "light";
+
+// API Specification 타입
+export interface ApiEndpoint {
+  id: string;
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  path: string;
+  summary: string;
+  description: string;
+  tags: ApiTag[];
+  requestBody?: {
+    contentType: string;
+    example: string;
+  };
+  response: {
+    status: number;
+    contentType: string;
+    example: string;
+  };
+  parameters?: ApiParameter[];
+}
+
+export interface ApiTag {
+  label: string;
+  type: "optimization" | "security" | "cache" | "index" | "validation";
+}
+
+export interface ApiParameter {
+  name: string;
+  in: "path" | "query" | "header";
+  type: string;
+  required: boolean;
+  description: string;
+}

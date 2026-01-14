@@ -16,6 +16,7 @@ import {
   SkillsSection,
   ProjectsSection,
   MetricsSection,
+  ApiSection,
   ExperienceSection,
   ContactSection,
 } from "./components/sections";
@@ -57,6 +58,9 @@ function App() {
 
         {/* Metrics Section */}
         <MetricsSection />
+
+        {/* API Specification Section */}
+        <ApiSection />
 
         {/* Experience Section */}
         <ExperienceSection />
