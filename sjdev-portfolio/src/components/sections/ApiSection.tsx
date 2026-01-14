@@ -85,26 +85,11 @@ const JsonViewer = ({ code, title }: { code: string; title: string }) => {
   // 간단한 JSON 구문 하이라이팅
   const highlightJson = (json: string) => {
     return json
-      .replace(
-        /"([^"]+)":/g,
-        '<span class="text-purple-400">"$1"</span>:'
-      )
-      .replace(
-        /: "([^"]*)"/g,
-        ': <span class="text-emerald-400">"$1"</span>'
-      )
-      .replace(
-        /: (\d+)/g,
-        ': <span class="text-amber-400">$1</span>'
-      )
-      .replace(
-        /: (true|false)/g,
-        ': <span class="text-blue-400">$1</span>'
-      )
-      .replace(
-        /: (null)/g,
-        ': <span class="text-slate-500">$1</span>'
-      );
+      .replace(/"([^"]+)":/g, '<span class="text-purple-400">"$1"</span>:')
+      .replace(/: "([^"]*)"/g, ': <span class="text-emerald-400">"$1"</span>')
+      .replace(/: (\d+)/g, ': <span class="text-amber-400">$1</span>')
+      .replace(/: (true|false)/g, ': <span class="text-blue-400">$1</span>')
+      .replace(/: (null)/g, ': <span class="text-slate-500">$1</span>');
   };
 
   return (
@@ -489,8 +474,7 @@ const ApiSection = () => {
         transition={{ delay: 0.3 }}
       >
         <p className="text-sm text-slate-500">
-          💡 각 API는{" "}
-          <span className="text-emerald-400">JPA 최적화</span>,{" "}
+          💡 각 API는 <span className="text-emerald-400">JPA 최적화</span>,{" "}
           <span className="text-blue-400">인덱스 튜닝</span>,{" "}
           <span className="text-purple-400">캐싱 전략</span>이 적용되어 있습니다
         </p>

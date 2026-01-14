@@ -439,9 +439,27 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
       { label: "Redis Cached", type: "cache" },
     ],
     parameters: [
-      { name: "page", in: "query", type: "integer", required: false, description: "페이지 번호 (default: 0)" },
-      { name: "size", in: "query", type: "integer", required: false, description: "페이지 크기 (default: 10)" },
-      { name: "category", in: "query", type: "string", required: false, description: "카테고리 필터" },
+      {
+        name: "page",
+        in: "query",
+        type: "integer",
+        required: false,
+        description: "페이지 번호 (default: 0)",
+      },
+      {
+        name: "size",
+        in: "query",
+        type: "integer",
+        required: false,
+        description: "페이지 크기 (default: 10)",
+      },
+      {
+        name: "category",
+        in: "query",
+        type: "string",
+        required: false,
+        description: "카테고리 필터",
+      },
     ],
     response: {
       status: 200,
@@ -475,13 +493,20 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     method: "GET",
     path: "/api/v1/projects/{id}",
     summary: "프로젝트 상세 조회",
-    description: "프로젝트 ID로 상세 정보를 조회합니다. N+1 문제를 해결한 최적화된 쿼리를 사용합니다.",
+    description:
+      "프로젝트 ID로 상세 정보를 조회합니다. N+1 문제를 해결한 최적화된 쿼리를 사용합니다.",
     tags: [
       { label: "N+1 Resolved", type: "optimization" },
       { label: "Index Tuned", type: "index" },
     ],
     parameters: [
-      { name: "id", in: "path", type: "long", required: true, description: "프로젝트 고유 ID" },
+      {
+        name: "id",
+        in: "path",
+        type: "long",
+        required: true,
+        description: "프로젝트 고유 ID",
+      },
     ],
     response: {
       status: 200,
@@ -593,13 +618,20 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     method: "PUT",
     path: "/api/v1/projects/{id}",
     summary: "프로젝트 수정",
-    description: "프로젝트 정보를 수정합니다. 낙관적 락(Optimistic Lock)을 적용하여 동시성을 제어합니다.",
+    description:
+      "프로젝트 정보를 수정합니다. 낙관적 락(Optimistic Lock)을 적용하여 동시성을 제어합니다.",
     tags: [
       { label: "@Version Lock", type: "validation" },
       { label: "DTO Validation", type: "validation" },
     ],
     parameters: [
-      { name: "id", in: "path", type: "long", required: true, description: "프로젝트 고유 ID" },
+      {
+        name: "id",
+        in: "path",
+        type: "long",
+        required: true,
+        description: "프로젝트 고유 ID",
+      },
     ],
     requestBody: {
       contentType: "application/json",
@@ -631,13 +663,20 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     method: "DELETE",
     path: "/api/v1/projects/{id}",
     summary: "프로젝트 삭제",
-    description: "프로젝트를 소프트 삭제합니다. 연관 데이터는 CASCADE 정책에 따라 처리됩니다.",
+    description:
+      "프로젝트를 소프트 삭제합니다. 연관 데이터는 CASCADE 정책에 따라 처리됩니다.",
     tags: [
       { label: "Soft Delete", type: "optimization" },
       { label: "Cascade Policy", type: "validation" },
     ],
     parameters: [
-      { name: "id", in: "path", type: "long", required: true, description: "프로젝트 고유 ID" },
+      {
+        name: "id",
+        in: "path",
+        type: "long",
+        required: true,
+        description: "프로젝트 고유 ID",
+      },
     ],
     response: {
       status: 200,
@@ -649,7 +688,7 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     "id": 1,
     "deletedAt": "2024-01-22T10:00:00Z"
   }
-}`
+}`,
     },
   },
 ];
