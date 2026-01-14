@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* 아래는 성진님 사이트의 기본 스타일 설정입니다 */
+body {
+  background-color: #020617;
+  color: white;
+  margin: 0;
+  font-family: sans-serif;
+}
