@@ -10,6 +10,22 @@ export interface TechStack {
   proficiency: "expert" | "advanced" | "intermediate" | "learning";
 }
 
+// 기술적 성과 타입
+export interface TechnicalAchievement {
+  category: "performance" | "backend" | "database" | "frontend";
+  icon: string;
+  title: string;
+  description: string;
+  metric?: string;
+}
+
+// 기술적 난관 해결 타입
+export interface SolutionOverlay {
+  challenge: string;
+  solution: string;
+  result: string;
+}
+
 // 프로젝트 타입
 export interface Project {
   id: string;
@@ -20,12 +36,16 @@ export interface Project {
   role: string;
   duration: string;
   highlights: string[];
+  achievements?: TechnicalAchievement[];
+  solutionOverlay?: SolutionOverlay;
+  erdImage?: string;
   links: {
     github?: string;
     demo?: string;
     notion?: string;
   };
   featured: boolean;
+  gridSize?: "large" | "medium" | "small";
 }
 
 // 경험/경력 타입

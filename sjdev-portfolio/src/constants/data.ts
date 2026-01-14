@@ -126,20 +126,57 @@ export const PROJECTS: Project[] = [
     description:
       "React + Spring Boot + MySQL을 활용한 풀스택 프로젝트. RESTful API 설계부터 프론트엔드 UI/UX까지 전체 개발 사이클을 경험했습니다.",
     thumbnail: "/projects/fullstack-app.png",
-    techStack: ["React", "TypeScript", "Spring Boot", "MySQL", "Tailwind CSS"],
+    techStack: [
+      "React",
+      "TypeScript",
+      "Spring Boot",
+      "MySQL",
+      "JPA",
+      "Swagger",
+    ],
     role: "Full-Stack Developer",
     duration: "2025.09 - 2025.12",
     highlights: [
       "JWT 기반 인증 시스템 구현",
-      "RESTful API 설계 및 구현",
+      "RESTful API 설계 및 Swagger 문서화",
       "반응형 UI/UX 디자인",
       "MySQL 데이터베이스 스키마 설계",
     ],
+    achievements: [
+      {
+        category: "performance",
+        icon: "⚡",
+        title: "쿼리 최적화",
+        description: "MySQL 인덱스 최적화를 통한 조인 쿼리 응답 시간 개선",
+        metric: "0.5s → 0.1s (80% 단축)",
+      },
+      {
+        category: "backend",
+        icon: "🔧",
+        title: "REST API 아키텍처",
+        description: "Spring Boot + JPA를 활용한 확장성 있는 API 설계",
+        metric: "25개 엔드포인트",
+      },
+      {
+        category: "database",
+        icon: "🗄️",
+        title: "데이터 설계",
+        description: "ERD 설계를 통한 데이터 정규화 및 무결성 확보",
+        metric: "3NF 정규화",
+      },
+    ],
+    solutionOverlay: {
+      challenge: "복잡한 조인 쿼리로 인한 API 응답 지연 문제",
+      solution: "MySQL 실행 계획 분석 후 복합 인덱스 설계 및 쿼리 리팩토링",
+      result: "평균 응답 시간 80% 단축, 동시 사용자 처리량 3배 향상",
+    },
+    erdImage: "/projects/fullstack-erd.png",
     links: {
       github: "https://github.com/yourusername/project-1",
       demo: "https://your-demo-url.com",
     },
     featured: true,
+    gridSize: "large",
   },
   {
     id: "project-2",
@@ -155,10 +192,32 @@ export const PROJECTS: Project[] = [
       "부드러운 스크롤 애니메이션",
       "반응형 디자인 시스템",
     ],
+    achievements: [
+      {
+        category: "frontend",
+        icon: "🎨",
+        title: "디자인 시스템",
+        description: "Tailwind v4 @theme을 활용한 커스텀 디자인 시스템 구축",
+        metric: "50+ 유틸리티",
+      },
+      {
+        category: "performance",
+        icon: "🚀",
+        title: "성능 최적화",
+        description: "Lighthouse 퍼포먼스 점수 최적화",
+        metric: "95+ 점수",
+      },
+    ],
+    solutionOverlay: {
+      challenge: "복잡한 애니메이션으로 인한 렌더링 성능 저하",
+      solution: "Framer Motion의 layout 애니메이션과 will-change 최적화 적용",
+      result: "60fps 안정적 유지, FCP 1.2초 달성",
+    },
     links: {
       github: "https://github.com/yourusername/portfolio",
     },
     featured: true,
+    gridSize: "medium",
   },
   {
     id: "project-3",
@@ -174,11 +233,26 @@ export const PROJECTS: Project[] = [
       "Git Flow 브랜치 전략 도입",
       "코드 리뷰 문화 정착",
     ],
+    achievements: [
+      {
+        category: "backend",
+        icon: "📦",
+        title: "아키텍처 설계",
+        description: "컴포넌트 기반 아키텍처로 재사용성 극대화",
+        metric: "30+ 컴포넌트",
+      },
+    ],
+    solutionOverlay: {
+      challenge: "팀원 간 코드 스타일 불일치로 인한 협업 어려움",
+      solution: "ESLint/Prettier 설정 통일 및 Git Flow 브랜치 전략 도입",
+      result: "코드 리뷰 시간 50% 단축, 머지 충돌 80% 감소",
+    },
     links: {
       github: "https://github.com/yourusername/team-project",
       notion: "https://notion.so/project-doc",
     },
     featured: false,
+    gridSize: "small",
   },
 ];
 
