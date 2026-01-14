@@ -32,6 +32,7 @@ export const NAV_SECTIONS: NavSection[] = [
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
+  { id: "metrics", label: "Metrics" },
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
@@ -352,3 +353,72 @@ export const PROFICIENCY_LABELS: Record<TechStack["proficiency"], string> = {
   intermediate: "Intermediate",
   learning: "Learning",
 };
+
+// ============================================
+// 📊 Engineering Metrics Data
+// ============================================
+
+import type { PerformanceComparison, MetricCard } from "../types";
+
+// 성능 비교 데이터 (바 차트용)
+export const PERFORMANCE_COMPARISONS: PerformanceComparison[] = [
+  {
+    label: "MySQL 인덱스 적용",
+    before: 500,
+    after: 100,
+    unit: "ms",
+    improvement: "80% 단축",
+  },
+  {
+    label: "N+1 쿼리 최적화",
+    before: 800,
+    after: 150,
+    unit: "ms",
+    improvement: "81% 단축",
+  },
+  {
+    label: "API 응답 속도",
+    before: 350,
+    after: 80,
+    unit: "ms",
+    improvement: "77% 단축",
+  },
+];
+
+// 핵심 지표 카드 데이터
+export const METRIC_CARDS: MetricCard[] = [
+  {
+    id: "lighthouse",
+    title: "Lighthouse Score",
+    value: 99,
+    icon: "⚡",
+    description: "Performance 최적화",
+    color: "emerald",
+  },
+  {
+    id: "api-uptime",
+    title: "API 응답률",
+    value: "99.9",
+    unit: "%",
+    icon: "🎯",
+    description: "안정적인 서버 운영",
+    color: "blue",
+  },
+  {
+    id: "test-coverage",
+    title: "테스트 커버리지",
+    value: 85,
+    unit: "%",
+    icon: "🧪",
+    description: "Unit & Integration Tests",
+    color: "purple",
+  },
+  {
+    id: "code-quality",
+    title: "코드 품질 점수",
+    value: "A+",
+    icon: "📊",
+    description: "SonarQube 분석 결과",
+    color: "orange",
+  },
+];

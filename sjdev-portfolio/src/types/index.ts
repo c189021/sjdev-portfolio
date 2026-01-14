@@ -99,5 +99,24 @@ export interface SkillGroup {
   }[];
 }
 
+// Engineering Metrics 타입
+export interface PerformanceComparison {
+  label: string;
+  before: number;
+  after: number;
+  unit: string;
+  improvement: string;
+}
+
+export interface MetricCard {
+  id: string;
+  title: string;
+  value: string | number;
+  unit?: string;
+  icon: string;
+  description: string;
+  color: "emerald" | "blue" | "purple" | "orange";
+}
+
 // 테마 타입
 export type ThemeMode = "dark" | "light";
