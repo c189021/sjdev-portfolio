@@ -200,6 +200,24 @@ body {
   background: var(--color-slate-600);
 }
 
+/* Terminal Scrollbar - Thin Style */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-slate-700);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-slate-600);
+}
+
 /* ============================================
  * 🎯 Utility Classes
  * ============================================ */
