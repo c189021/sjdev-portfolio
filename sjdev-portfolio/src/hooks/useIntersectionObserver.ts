@@ -3,7 +3,7 @@
 // 요소 가시성 감지 (애니메이션 트리거용)
 // ============================================
 
-import { useEffect, useRef, useState, RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 interface UseIntersectionObserverOptions {
   threshold?: number | number[];
@@ -13,7 +13,7 @@ interface UseIntersectionObserverOptions {
 }
 
 interface UseIntersectionObserverReturn<T extends Element> {
-  ref: RefObject<T>;
+  ref: RefObject<T | null>;
   isIntersecting: boolean;
   entry: IntersectionObserverEntry | null;
 }
