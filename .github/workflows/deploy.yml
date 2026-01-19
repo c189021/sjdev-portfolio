@@ -9,8 +9,17 @@ permissions:
   pages: write
   id-token: write
 
+# 이 부분이 추가되어야 에러가 해결됩니다.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build_and_deploy:
+    # GitHub Pages 배포를 위한 환경 설정
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,15 +30,14 @@ jobs:
         with:
           node-version: 20
           cache: "npm"
-          # 하위 폴더의 package-lock.json을 기준으로 캐시 설정
           cache-dependency-path: "sjdev-portfolio/package-lock.json"
 
       - name: Install dependencies
-        working-directory: ./sjdev-portfolio # 하위 폴더로 이동
+        working-directory: ./sjdev-portfolio
         run: npm install
 
       - name: Build
-        working-directory: ./sjdev-portfolio # 하위 폴더로 이동
+        working-directory: ./sjdev-portfolio
         run: npm run build
 
       - name: Setup Pages
@@ -38,7 +46,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 빌드된 결과물(dist)이 있는 정확한 경로 지정
           path: "./sjdev-portfolio/dist"
 
       - name: Deploy to GitHub Pages
