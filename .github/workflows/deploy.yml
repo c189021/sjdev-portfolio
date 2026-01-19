@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          # 하위 폴더의 package-lock.json을 기준으로 캐시 설정
+          cache-dependency-path: "sjdev-portfolio/package-lock.json"
+
+      - name: Install dependencies
+        working-directory: ./sjdev-portfolio # 하위 폴더로 이동
+        run: npm install
+
+      - name: Build
+        working-directory: ./sjdev-portfolio # 하위 폴더로 이동
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 빌드된 결과물(dist)이 있는 정확한 경로 지정
+          path: "./sjdev-portfolio/dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
