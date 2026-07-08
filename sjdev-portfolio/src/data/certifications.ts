@@ -8,9 +8,9 @@ export const CERTIFICATIONS: Certification[] = [
     id: "cert-gpt",
     name: "대화형 GPT(생성AI) 전문가 자격증 3급",
     status: "acquired",
-    issuer: null,
-    date: null,
-    todos: ["확인 필요: 발급 기관·취득일"],
+    issuer: "국제문화기술진흥원",
+    date: "2026.06",
+    todos: [],
   },
   // ----- 취득 예정 (노출 여부는 사이트 구현 시 결정) -----
   {

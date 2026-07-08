@@ -1,37 +1,23 @@
-// ============================================
-// 💳 Card Component
-// 재사용 가능한 카드 컴포넌트
-// ============================================
-
-import type { ReactNode } from "react";
+import type { HTMLAttributes } from "react";
 import { cn } from "../../utils/helpers";
 
-interface CardProps {
-  children: ReactNode;
-  className?: string;
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  /** 호버 시 살짝 떠오르는 효과 (클릭 가능한 카드에 사용) */
   hover?: boolean;
-  glow?: boolean;
 }
 
-const Card = ({
-  children,
-  className,
-  hover = true,
-  glow = false,
-}: CardProps) => {
-  return (
-    <div
-      className={cn(
-        "relative rounded-2xl border border-slate-800/50 bg-slate-900/30 backdrop-blur-sm p-6",
-        hover &&
-          "transition-all duration-300 hover:border-slate-700/50 hover:bg-slate-800/30 hover:-translate-y-1",
-        glow && "hover:shadow-xl hover:shadow-emerald-500/10",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-};
+const Card = ({ hover = false, className, children, ...rest }: CardProps) => (
+  <div
+    className={cn(
+      "rounded-xl border border-line bg-surface p-5",
+      hover &&
+        "cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_8px_24px_rgba(38,34,26,0.07)]",
+      className
+    )}
+    {...rest}
+  >
+    {children}
+  </div>
+);
 
 export default Card;

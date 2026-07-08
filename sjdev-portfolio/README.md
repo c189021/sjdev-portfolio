@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# 박성진 포트폴리오 (박성진.com)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+홍익대학교 소프트웨어융합학과 박성진의 개인 포트폴리오 웹사이트입니다.
+AI·LLM/웹 프로젝트 10개, 논문 3편(국제 논문지 게재 1편 포함), 수상·활동 이력을 담고 있습니다.
 
-Currently, two official plugins are available:
+## 기술 스택
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19 + TypeScript + Vite 7** — 원페이지 스크롤 구조 (라우터 없음)
+- **Tailwind CSS v4** — `src/index.css`의 시맨틱 토큰(`@theme inline`)으로 라이트(웜 아이보리+코발트)/다크(웜 차콜) 테마
+- **framer-motion** — 등장·스크롤 리빌·플로팅 애니메이션
+- **lucide-react** — 아이콘
 
-## React Compiler
+## 구조
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  data/        # 모든 콘텐츠(프로젝트·논문·수상·활동·스킬·자격증) — 코드와 분리된 단일 데이터 소스
+  types/       # 콘텐츠 타입 정의
+  components/
+    common/    # SectionShell·Card·Button·Badge·Chip·Tag·Modal·Pending·Reveal
+    layout/    # Header(테마 토글·모바일 메뉴) / Footer
+    sections/  # Hero·About·Projects·Research·Activities·Skills·Contact
+  hooks/       # useScrollSection, useTheme
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 콘텐츠 수정은 `src/data/`만 고치면 됩니다. 컴포넌트는 데이터를 렌더링만 합니다.
+- 미확정 정보는 값 대신 각 항목의 `todos`에 기록되고 화면에 ⚠ 배지로 표시됩니다
+  (`collectPendingItems()`로 전체 집계).
+- 프로젝트 상세는 `#project=<id>` 해시 딥링크로 직접 열 수 있습니다.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 실행
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev      # 개발 서버
+npm run build    # 타입체크 + 프로덕션 빌드
+npm run lint     # ESLint
 ```
+
+## 배포
+
+`main` 브랜치 푸시 → GitHub Actions(`.github/workflows/deploy.yml`) → GitHub Pages → 박성진.com

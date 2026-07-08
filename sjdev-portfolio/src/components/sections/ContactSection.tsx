@@ -1,207 +1,124 @@
-// ============================================
-// 📧 ContactSection Component
-// 연락처 섹션 with Framer Motion
-// ============================================
-
-import { motion } from "framer-motion";
-import { SectionWrapper, SectionTitle, Button } from "../common";
-import { PERSONAL_INFO } from "../../constants/data";
+import { useState } from "react";
+import { Check, Copy, FileDown, Github, Mail, Rss } from "lucide-react";
+import { PROFILE, SITE } from "../../data";
+import { SectionShell } from "../common";
 
 const ContactSection = () => {
-  const contactMethods = [
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            fillRule="evenodd"
-            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      label: "GitHub",
-      value: "github.com/yourusername",
-      href: PERSONAL_INFO.contact.github,
-      color: "hover:text-white hover:bg-slate-700/50",
-    },
-    {
-      icon: (
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
-        </svg>
-      ),
-      label: "Email",
-      value: PERSONAL_INFO.contact.email,
-      href: `mailto:${PERSONAL_INFO.contact.email}`,
-      color: "hover:text-emerald-400 hover:bg-emerald-500/10",
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-        </svg>
-      ),
-      label: "LinkedIn",
-      value: "linkedin.com/in/yourusername",
-      href: PERSONAL_INFO.contact.linkedin || "#",
-      color: "hover:text-blue-400 hover:bg-blue-500/10",
-    },
-  ];
+  const [copied, setCopied] = useState(false);
+  const email = PROFILE.contact.email;
+
+  const copyEmail = async () => {
+    if (!email) return;
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // 클립보드 접근이 막힌 환경에서는 메일 클라이언트로 대체
+      window.location.href = `mailto:${email}`;
+    }
+  };
+
+  const ghostBtn =
+    "inline-flex items-center gap-1.5 rounded-lg border border-white/35 px-3.5 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-white/10";
 
   return (
-    <SectionWrapper id="contact">
-      <div className="max-w-4xl mx-auto">
-        <SectionTitle
-          title="Contact"
-          subtitle="함께 성장할 기회를 기다리고 있습니다"
+    <SectionShell
+      id="contact"
+      eyebrow="Contact"
+      title="연락하기"
+      description="함께 일해 보고 싶거나 프로젝트가 궁금하시다면 언제든 연락 주세요."
+      className="border-b-0"
+    >
+      {/* 그라디언트 패널 — 테마와 무관하게 항상 선명한 코발트→바이올렛 */}
+      <div className="relative mx-auto max-w-2xl overflow-hidden rounded-2xl bg-linear-to-br from-[#1d4ed8] to-[#7c3aed] p-8 text-center sm:p-10">
+        {/* 장식 블롭 + 도트 */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/10 blur-2xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -left-14 h-56 w-56 rounded-full bg-white/10 blur-2xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-15"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)",
+            backgroundSize: "22px 22px",
+          }}
         />
 
-        {/* Main CTA Card */}
-        <motion.div
-          className="relative rounded-2xl border border-slate-800/50 bg-slate-900/30 backdrop-blur-sm p-8 md:p-12 mb-8 overflow-hidden"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Background Gradient */}
-          <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 via-transparent to-blue-500/5 pointer-events-none" />
+        <div className="relative">
+          <span className="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-white/15 text-white ring-1 ring-white/25">
+            <Mail size={22} />
+          </span>
+          <p className="mt-5 text-lg font-extrabold tracking-tight text-white sm:text-xl">
+            {email ?? "이메일 준비 중"}
+          </p>
+          <p className="mt-2 text-sm text-white/75">
+            이메일을 남겨 주시면 확인 후 답장드리겠습니다.
+          </p>
 
-          <div className="relative text-center">
-            {/* Icon */}
-            <motion.div
-              className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-linear-to-br from-emerald-500/20 to-blue-500/20 mb-6"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-              whileHover={{ scale: 1.1, rotate: 5 }}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={copyEmail}
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-accent shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <span className="text-4xl">💬</span>
-            </motion.div>
-
-            {/* Title */}
-            <motion.h3
-              className="text-2xl md:text-3xl font-bold text-white mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              함께 성장할 동료를 찾으신다면
-            </motion.h3>
-
-            {/* Description - 요청된 문구 */}
-            <motion.p
-              className="text-slate-400 max-w-2xl mx-auto mb-8 text-base md:text-lg leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              안정적인 시스템 설계와 사용자 중심의 인터페이스 구축에 관심이
-              많습니다.
-              <br className="hidden md:block" />
-              <span className="text-emerald-400 font-medium">
-                함께 성장할 동료를 찾으신다면 연락 주세요.
-              </span>
-            </motion.p>
-
-            {/* CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <Button
-                variant="primary"
-                size="lg"
-                leftIcon={
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                }
-                onClick={() =>
-                  window.open(`mailto:${PERSONAL_INFO.contact.email}`, "_blank")
-                }
-              >
-                이메일 보내기
-              </Button>
-            </motion.div>
+              {copied ? (
+                <>
+                  <Check size={15} /> 복사됨
+                </>
+              ) : (
+                <>
+                  <Copy size={15} /> 이메일 복사
+                </>
+              )}
+            </button>
+            {email && (
+              <a href={`mailto:${email}`} className={ghostBtn}>
+                <Mail size={14} /> 메일 보내기
+              </a>
+            )}
           </div>
 
-          {/* Decorative Elements */}
-          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
-        </motion.div>
-
-        {/* Contact Methods */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {contactMethods.map((method, index) => (
-            <motion.a
-              key={method.label}
-              href={method.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-              whileHover={{ y: -4 }}
-            >
-              <div className="h-full p-6 rounded-xl border border-slate-800/50 bg-slate-900/30 backdrop-blur-sm transition-all duration-300 group-hover:border-emerald-500/30">
-                <div className="flex flex-col items-center text-center">
-                  <div
-                    className={`w-12 h-12 rounded-xl bg-slate-800/50 flex items-center justify-center text-slate-400 transition-all duration-300 mb-4 ${method.color}`}
-                  >
-                    {method.icon}
-                  </div>
-                  <h4 className="font-semibold text-white mb-1">
-                    {method.label}
-                  </h4>
-                  <p className="text-sm text-slate-500 group-hover:text-slate-400 transition-colors truncate max-w-full">
-                    {method.value}
-                  </p>
-                </div>
-              </div>
-            </motion.a>
-          ))}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            {PROFILE.links.github && (
+              <a
+                href={PROFILE.links.github}
+                target="_blank"
+                rel="noreferrer"
+                className={ghostBtn}
+              >
+                <Github size={14} /> GitHub
+              </a>
+            )}
+            {PROFILE.links.blog && (
+              <a
+                href={PROFILE.links.blog}
+                target="_blank"
+                rel="noreferrer"
+                className={ghostBtn}
+              >
+                <Rss size={14} /> 블로그
+              </a>
+            )}
+            {SITE.resume.pdfPath && (
+              <a
+                href={SITE.resume.pdfPath}
+                target="_blank"
+                rel="noreferrer"
+                className={ghostBtn}
+              >
+                <FileDown size={14} /> 이력서 다운로드
+              </a>
+            )}
+          </div>
         </div>
-
-        {/* Footer Note */}
-        <motion.p
-          className="text-center text-sm text-slate-500 mt-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 1 }}
-        >
-          인턴십, 프로젝트 협업, 스터디 등 다양한 기회에 열려 있습니다 🚀
-        </motion.p>
       </div>
-    </SectionWrapper>
+    </SectionShell>
   );
 };
 

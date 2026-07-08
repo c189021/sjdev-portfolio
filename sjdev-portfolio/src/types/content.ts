@@ -50,7 +50,7 @@ export interface Project {
     paper?: string | null;
     site?: string | null;
   };
-  media?: { thumbnail?: string; images?: string[] };
+  media?: { thumbnail?: string; images?: string[]; video?: string };
   todos: string[];
 }
 
@@ -107,6 +107,8 @@ export interface SkillItem {
   projectIds: string[];
   /** 프로젝트 외 근거 (예: RA 연구, 본 포트폴리오 사이트) */
   note?: string;
+  /** public/icons/ 아래 SVG 파일명 — 없으면 모노그램 칩으로 표시 */
+  icon?: string;
 }
 
 export interface SkillCategory {
@@ -119,6 +121,7 @@ export interface Profile {
   name: string;
   nameEn: string | null;
   title: string; // 헤드라인 (예: "AI·LLM과 웹을 만드는 개발자")
+  intro: string; // Hero용 한 줄 소개 (긴 소개는 bio → About)
   bio: string[]; // 소개 문장 배열
   education: { school: string; major: string; status: string };
   contact: { email: string | null };

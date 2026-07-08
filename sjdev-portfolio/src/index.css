@@ -1,86 +1,98 @@
 /* ============================================
- * 🎨 sjdev-portfolio Design System
- * Tailwind v4 with @theme
- * Engineering Dark Mode - Navy + Emerald + Blue
+ * 박성진 포트폴리오 디자인 시스템 (Tailwind v4)
+ * 라이트(기본): 웜 아이보리 + 코발트 블루 — PHASE 2 확정 팔레트
+ * 다크: 웜 차콜 변형 — .dark 클래스로 전환 (useTheme)
  * ============================================ */
 
 @import "tailwindcss";
 
-/* ============================================
- * 🎨 Custom Theme Definition (Tailwind v4)
- * ============================================ */
-@theme {
-  /* === Color Palette === */
+/* dark: 변형을 OS 설정이 아닌 .dark 클래스 기준으로 동작시킨다 */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  /* Primary Background - Deep Navy */
-  --color-navy-950: #020617;
-  --color-navy-900: #0f172a;
-  --color-navy-800: #1e293b;
-  --color-navy-700: #334155;
-  --color-navy-600: #475569;
+/* === 시맨틱 색 토큰 (테마별 값) === */
+:root {
+  color-scheme: light;
 
-  /* Accent - Emerald (Primary) */
-  --color-emerald-50: #ecfdf5;
-  --color-emerald-100: #d1fae5;
-  --color-emerald-200: #a7f3d0;
-  --color-emerald-300: #6ee7b7;
-  --color-emerald-400: #34d399;
-  --color-emerald-500: #10b981;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
-  --color-emerald-800: #065f46;
-  --color-emerald-900: #064e3b;
+  --canvas: #faf7f1; /* 페이지 배경 */
+  --surface: #ffffff; /* 카드·패널 */
+  --sunken: #f2ede3; /* 한 단계 가라앉은 면 (칩·코드·푸터) */
+  --line: #e6dfd0; /* 경계선 */
+  --ink: #26221a; /* 본문 */
+  --muted: #6b6353; /* 보조 텍스트 */
+  --accent: #1d4ed8; /* 포인트 (코발트) */
+  --accent-hover: #173db0;
+  --accent-soft: #e9effd; /* 포인트 연한 배경 */
+  --on-accent: #ffffff; /* 포인트 면 위 텍스트 */
 
-  /* Accent - Blue (Secondary) */
-  --color-blue-50: #eff6ff;
-  --color-blue-100: #dbeafe;
-  --color-blue-200: #bfdbfe;
-  --color-blue-300: #93c5fd;
-  --color-blue-400: #60a5fa;
-  --color-blue-500: #3b82f6;
-  --color-blue-600: #2563eb;
-  --color-blue-700: #1d4ed8;
-  --color-blue-800: #1e40af;
-  --color-blue-900: #1e3a8a;
-
-  /* Neutral - Slate */
-  --color-slate-50: #f8fafc;
-  --color-slate-100: #f1f5f9;
-  --color-slate-200: #e2e8f0;
-  --color-slate-300: #cbd5e1;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #64748b;
-  --color-slate-600: #475569;
-  --color-slate-700: #334155;
-  --color-slate-800: #1e293b;
-  --color-slate-900: #0f172a;
-
-  /* === Typography === */
-  --font-family-sans: "Pretendard", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-family-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
-
-  /* === Animations === */
-  --animate-fade-in: fade-in 0.5s ease-out forwards;
-  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
-  --animate-slide-in-left: slide-in-left 0.5s ease-out forwards;
-  --animate-slide-in-right: slide-in-right 0.5s ease-out forwards;
-  --animate-gradient: gradient 8s ease infinite;
-  --animate-glow: glow 2s ease-in-out infinite alternate;
-  --animate-float: float 6s ease-in-out infinite;
-
-  /* === Shadows === */
-  --shadow-glow-emerald: 0 0 40px rgba(16, 185, 129, 0.15);
-  --shadow-glow-blue: 0 0 40px rgba(59, 130, 246, 0.15);
-
-  /* === Border Radius === */
-  --radius-2xl: 1rem;
-  --radius-3xl: 1.5rem;
+  /* 도메인 컬러 — 색이 정보(콘텐츠 종류)를 전달한다 */
+  --domain-ai: #7c3aed; /* AI·LLM (바이올렛) */
+  --domain-web: #0d9488; /* 웹 (틸) */
+  --domain-ml: #d97706; /* ML·데이터 (앰버) */
+  --domain-research: #e11d48; /* 연구·논문 (로즈) */
 }
 
-/* ============================================
- * 🎬 Keyframe Animations
- * ============================================ */
+.dark {
+  color-scheme: dark;
+
+  --canvas: #1a1712;
+  --surface: #221e18;
+  --sunken: #2a251d;
+  --line: #393226;
+  --ink: #f0ebe1;
+  --muted: #a69d8c;
+  --accent: #8fadf8;
+  --accent-hover: #abc2fb;
+  --accent-soft: #222e4d;
+  --on-accent: #15213d;
+
+  --domain-ai: #a78bfa;
+  --domain-web: #2dd4bf;
+  --domain-ml: #fbbf24;
+  --domain-research: #fb7185;
+}
+
+/* === Tailwind 유틸리티에 토큰 연결 (bg-canvas, text-ink, border-line …) === */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-domain-ai: var(--domain-ai);
+  --color-domain-web: var(--domain-web);
+  --color-domain-ml: var(--domain-ml);
+  --color-domain-research: var(--domain-research);
+
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+    "Segoe UI", sans-serif;
+
+  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
+  --animate-marquee: marquee 36s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -90,258 +102,45 @@
   }
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes gradient {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes glow {
-  from {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-  }
-  to {
-    box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* ============================================
- * 🌐 Base Styles
- * ============================================ */
-* {
-  box-sizing: border-box;
-}
-
+/* === 베이스 === */
 html {
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background-color: var(--color-navy-950);
-  color: var(--color-slate-100);
-  font-family: var(--font-family-sans);
-  line-height: 1.6;
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.65;
   margin: 0;
-  padding: 0;
   min-height: 100vh;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Selection */
 ::selection {
-  background-color: rgba(16, 185, 129, 0.3);
-  color: white;
+  background-color: var(--accent-soft);
+  color: var(--ink);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-navy-900);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-slate-700);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-slate-600);
-}
-
-/* Terminal Scrollbar - Thin Style */
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: var(--color-slate-700);
-  border-radius: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: var(--color-slate-600);
-}
-
-/* ============================================
- * 🎯 Utility Classes
- * ============================================ */
-
-/* Animation Delays */
-.animation-delay-100 {
-  animation-delay: 100ms;
-}
-
-.animation-delay-200 {
-  animation-delay: 200ms;
-}
-
-.animation-delay-300 {
-  animation-delay: 300ms;
-}
-
-.animation-delay-400 {
-  animation-delay: 400ms;
-}
-
-.animation-delay-500 {
-  animation-delay: 500ms;
-}
-
-/* Glass Effect */
-.glass {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(
-    135deg,
-    var(--color-emerald-400),
-    var(--color-blue-400)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glow Effects */
-.glow-emerald {
-  box-shadow: var(--shadow-glow-emerald);
-}
-
-.glow-blue {
-  box-shadow: var(--shadow-glow-blue);
-}
-
-/* Hover Lift */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-}
-
-/* Line Clamp */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ============================================
- * 📱 Focus States (Accessibility)
- * ============================================ */
 :focus-visible {
-  outline: 2px solid var(--color-emerald-500);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* ============================================
- * 🎨 Custom Components
- * ============================================ */
-
-/* Gradient Border */
-.gradient-border {
-  position: relative;
-  background: var(--color-navy-900);
-  border-radius: var(--radius-2xl);
+/* 스크롤바 — 캔버스 톤에 맞춤 */
+::-webkit-scrollbar {
+  width: 10px;
 }
-
-.gradient-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    var(--color-emerald-500),
-    var(--color-blue-500)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+::-webkit-scrollbar-track {
+  background: var(--canvas);
 }
-
-/* Animated Background Gradient */
-.animated-gradient-bg {
-  background: linear-gradient(
-    -45deg,
-    var(--color-navy-950),
-    var(--color-navy-900),
-    rgba(16, 185, 129, 0.1),
-    rgba(59, 130, 246, 0.1)
-  );
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 5px;
+  border: 2px solid var(--canvas);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState, useEffect, useCallback } from "react";
-import type { NavSection } from "../types";
+import type { NavSection } from "../types/content";
 
 interface UseScrollSectionOptions {
   sections: NavSection[];

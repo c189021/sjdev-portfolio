@@ -1,433 +1,332 @@
-// ============================================
-// 🦸 HeroSection Component
-// 메인 히어로 섹션 - Framer Motion 애니메이션
-// ============================================
-
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { PERSONAL_INFO } from "../../constants/data";
-import { Button } from "../common";
+import { useEffect, useRef, useState } from "react";
+import { animate, motion, useInView, type Variants } from "framer-motion";
+import {
+  ArrowRight,
+  Award,
+  BookOpen,
+  ChevronDown,
+  FileDown,
+  Gauge,
+  Github,
+  Rss,
+} from "lucide-react";
+import { AWARDS, PROFILE, PROJECTS, PUBLICATIONS, SITE } from "../../data";
+import { Button, Pending } from "../common";
 
 interface HeroSectionProps {
   onNavigate: (sectionId: string) => void;
 }
 
-// 데이터 스트림 파티클 컴포넌트
-const DataStream = () => {
-  const [particles, setParticles] = useState<
-    Array<{
-      id: number;
-      x: number;
-      delay: number;
-      duration: number;
-      size: number;
-    }>
-  >([]);
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09 } },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+// 숫자 카운트업 — 뷰포트 진입 시 1회
+const Counter = ({ to, suffix }: { to: number; suffix?: string }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    const newParticles = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 3 + Math.random() * 4,
-      size: 2 + Math.random() * 4,
-    }));
-    setParticles(newParticles);
-  }, []);
+    if (!inView) return;
+    const controls = animate(0, to, {
+      duration: 1.1,
+      ease: "easeOut",
+      onUpdate: (v) => setValue(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, to]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-linear-to-b from-emerald-400/60 to-blue-400/40"
-          style={{
-            left: `${particle.x}%`,
-            width: particle.size,
-            height: particle.size,
-          }}
-          initial={{ top: "-5%", opacity: 0 }}
-          animate={{
-            top: "105%",
-            opacity: [0, 1, 1, 0],
-          }}
-          transition={{
-            duration: particle.duration,
-            delay: particle.delay,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
-
-      {/* 데이터 라인 스트림 */}
-      {Array.from({ length: 8 }).map((_, i) => (
-        <motion.div
-          key={`line-${i}`}
-          className="absolute w-px bg-linear-to-b from-transparent via-emerald-500/30 to-transparent"
-          style={{
-            left: `${10 + i * 12}%`,
-            height: "100px",
-          }}
-          initial={{ top: "-100px", opacity: 0 }}
-          animate={{
-            top: "100%",
-            opacity: [0, 0.6, 0.6, 0],
-          }}
-          transition={{
-            duration: 4 + i * 0.5,
-            delay: i * 0.8,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
-    </div>
+    <span ref={ref}>
+      {value}
+      {suffix}
+    </span>
   );
 };
 
-// 서버 노드 애니메이션
-const ServerNode = ({ delay = 0 }: { delay?: number }) => (
-  <motion.div
-    className="absolute w-3 h-3 rounded-sm bg-emerald-500/40 border border-emerald-500/60"
-    initial={{ scale: 0, opacity: 0 }}
-    animate={{
-      scale: [0, 1, 1, 0],
-      opacity: [0, 0.8, 0.8, 0],
-    }}
-    transition={{
-      duration: 3,
-      delay,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-  />
-);
+// 우측 성과 스냅샷 — 확정된 실데이터만 사용
+const SNAPSHOT_CARDS = [
+  {
+    icon: BookOpen,
+    chip: "bg-domain-research/12 text-domain-research",
+    title: "KSII 국제 논문지 게재",
+    sub: "An LLM-based Web Navigator (Guider)",
+    offset: "lg:ml-10",
+    floatDelay: 0,
+  },
+  {
+    icon: Award,
+    chip: "bg-domain-ml/12 text-domain-ml",
+    title: "발표회 최우수상",
+    sub: "DevOps 전문가 양성과정 · Guider",
+    offset: "lg:ml-0",
+    floatDelay: 0.8,
+  },
+  {
+    icon: Gauge,
+    chip: "bg-domain-web/12 text-domain-web",
+    title: "과업 성공률 24% → 100%",
+    sub: "Guider 사용자 50명 실험",
+    offset: "lg:ml-16",
+    floatDelay: 1.6,
+  },
+];
 
-// Core Architecture 배지
-const CoreArchitectureBadge = () => {
-  const techStack = [
-    { name: "Spring Boot", icon: "🍃", color: "emerald" },
-    { name: "MySQL", icon: "🐬", color: "blue" },
-    { name: "React", icon: "⚛️", color: "cyan" },
-  ];
-
-  return (
-    <motion.div
-      className="flex flex-col items-center gap-4"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.2, duration: 0.6 }}
-    >
-      {/* Core Architecture Title */}
-      <motion.div
-        className="flex items-center gap-2 text-sm text-slate-500"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-      >
-        <span className="w-8 h-px bg-linear-to-r from-transparent to-slate-600" />
-        <span className="uppercase tracking-widest text-xs">
-          Core Architecture
-        </span>
-        <span className="w-8 h-px bg-linear-to-l from-transparent to-slate-600" />
-      </motion.div>
-
-      {/* Tech Stack Badges */}
-      <div className="flex flex-wrap justify-center gap-3">
-        {techStack.map((tech, index) => (
-          <motion.div
-            key={tech.name}
-            className="group relative"
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 1.5 + index * 0.15, duration: 0.4 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-          >
-            <div className="absolute inset-0 bg-linear-to-r from-emerald-500/20 to-blue-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/50 backdrop-blur-sm hover:border-emerald-500/30 transition-all duration-300">
-              <span className="text-lg">{tech.icon}</span>
-              <span className="text-sm font-medium text-slate-200">
-                {tech.name}
-              </span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* RESTful API Badge */}
-      <motion.div
-        className="relative mt-2"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 2, duration: 0.5 }}
-        whileHover={{ scale: 1.02 }}
-      >
-        <div className="absolute inset-0 bg-linear-to-r from-emerald-500/10 via-blue-500/10 to-emerald-500/10 rounded-2xl blur-2xl" />
-        <div className="relative flex items-center gap-3 px-6 py-3 rounded-2xl bg-linear-to-r from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm">
-          {/* API Icon */}
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-emerald-500/20 to-blue-500/20 border border-emerald-500/30">
-            <svg
-              className="w-5 h-5 text-emerald-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-          </div>
-
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-white">
-              RESTful API 설계
-            </span>
-            <span className="text-xs text-slate-400">
-              Swagger 기반 문서화 가능
-            </span>
-          </div>
-
-          {/* Animated dots */}
-          <div className="flex gap-1 ml-2">
-            {[0, 1, 2].map((i) => (
-              <motion.span
-                key={i}
-                className="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{
-                  duration: 1.5,
-                  delay: i * 0.2,
-                  repeat: Infinity,
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
+// 하단 마키 스트립에 흐르는 기술 아이콘
+const MARQUEE_ICONS = [
+  ["react", "React"],
+  ["typescript", "TypeScript"],
+  ["javascript", "JavaScript"],
+  ["claude", "Claude"],
+  ["openai", "OpenAI"],
+  ["python", "Python"],
+  ["spring", "Spring Boot"],
+  ["fastapi", "FastAPI"],
+  ["mysql", "MySQL"],
+  ["postgresql", "PostgreSQL"],
+  ["redis", "Redis"],
+  ["tensorflow", "TensorFlow"],
+  ["flutter", "Flutter"],
+  ["aws", "AWS"],
+  ["php", "PHP"],
+  ["wordpress", "WordPress"],
+  ["mediapipe", "MediaPipe"],
+  ["chrome", "Chrome 확장"],
+  ["git", "Git"],
+  ["html5", "HTML5"],
+] as const;
 
 const HeroSection = ({ onNavigate }: HeroSectionProps) => {
-  // 텍스트 애니메이션 variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const publicationCount = PUBLICATIONS.length;
+  const awardCount = AWARDS.filter((a) => a.status === "confirmed").length;
+  const projectCount = PROJECTS.length;
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
+  const stats = [
+    {
+      value: publicationCount,
+      suffix: "편",
+      label: "논문 · 국제지 1편",
+      color: "text-domain-research",
     },
-  };
+    { value: awardCount, suffix: "건", label: "수상", color: "text-domain-ml" },
+    {
+      value: projectCount,
+      suffix: "+",
+      label: "프로젝트",
+      color: "text-accent",
+    },
+    {
+      value: 4,
+      suffix: "년",
+      label: "과대표 · 학생회장",
+      color: "text-domain-web",
+    },
+  ];
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative overflow-hidden border-b border-line/60"
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Orbs */}
+      {/* 배경 — 유영하는 그라디언트 블롭 + 옅어지는 도트 그리드 */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
         <motion.div
-          className="absolute top-1/4 -left-1/4 w-150 h-150 bg-emerald-500/15 rounded-full blur-[128px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.25, 0.15],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ x: [0, 50, -20, 0], y: [0, 30, 60, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-40 right-[-10%] h-[480px] w-[480px] rounded-full bg-accent/15 blur-3xl dark:bg-accent/10"
         />
         <motion.div
-          className="absolute bottom-1/4 -right-1/4 w-150 h-150 bg-blue-500/15 rounded-full blur-[128px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.15, 0.25, 0.15],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
+          animate={{ x: [0, -40, 30, 0], y: [0, 50, -20, 0] }}
+          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute right-[18%] top-[30%] h-[360px] w-[360px] rounded-full bg-domain-ai/12 blur-3xl dark:bg-domain-ai/8"
         />
-
-        {/* Data Stream Animation */}
-        <DataStream />
-
-        {/* Grid Pattern */}
+        <motion.div
+          animate={{ x: [0, 60, 0], y: [0, -40, 0] }}
+          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-48 left-[-12%] h-[420px] w-[420px] rounded-full bg-domain-web/10 blur-3xl dark:bg-domain-web/8"
+        />
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-40"
           style={{
-            backgroundImage: `linear-gradient(rgba(16, 185, 129, 0.3) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(16, 185, 129, 0.3) 1px, transparent 1px)`,
-            backgroundSize: "64px 64px",
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 0)",
+            backgroundSize: "26px 26px",
+            maskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 78%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 78%)",
           }}
         />
-
-        {/* Server Nodes */}
-        <div className="absolute top-1/3 left-[15%]">
-          <ServerNode delay={0} />
-        </div>
-        <div className="absolute top-1/2 right-[20%]">
-          <ServerNode delay={1} />
-        </div>
-        <div className="absolute bottom-1/3 left-[25%]">
-          <ServerNode delay={2} />
-        </div>
       </div>
 
-      {/* Content */}
-      <motion.div
-        className="relative z-10 max-w-4xl mx-auto text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Status Badge */}
-        <motion.div
-          className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm"
-          variants={itemVariants}
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span className="text-sm text-slate-300">
-            {PERSONAL_INFO.university} {PERSONAL_INFO.major}
-          </span>
-        </motion.div>
-
-        {/* Main Heading - Sequential Text Animation */}
-        <div className="mb-8">
+      <div className="relative mx-auto grid max-w-5xl items-center gap-14 px-5 pb-16 pt-20 sm:pt-24 lg:min-h-[calc(100vh-8.5rem)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-20">
+        {/* ===== 좌측: 텍스트 ===== */}
+        <motion.div variants={container} initial="hidden" animate="show">
           <motion.p
-            className="text-lg md:text-xl text-slate-400 mb-4"
-            variants={itemVariants}
+            variants={item}
+            className="flex items-center gap-2 text-sm font-semibold text-muted"
           >
-            사용자 경험(UX)을 넘어
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+            {PROFILE.education.school} {PROFILE.education.major}
           </motion.p>
 
           <motion.h1
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
-            variants={itemVariants}
+            variants={item}
+            className="mt-5 text-4xl font-extrabold leading-[1.22] tracking-tight sm:text-5xl sm:leading-[1.2]"
           >
-            <span className="bg-linear-to-r from-emerald-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent bg-size-[200%_auto] animate-gradient">
-              데이터의 흐름
+            <span className="text-accent">AI·LLM</span>의 가능성을
+            <br />
+            <span className="bg-linear-to-r from-accent to-domain-ai bg-clip-text text-transparent">
+              사용자의 화면
             </span>
-            과 <br className="hidden sm:block" />
-            <span className="bg-linear-to-r from-blue-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent bg-size-[200%_auto] animate-gradient">
-              시스템의 안정성
-            </span>
-            을 설계하는
+            까지 옮기는
+            <br />
+            개발자 {PROFILE.name}입니다
           </motion.h1>
 
-          <motion.div
-            className="flex items-center justify-center gap-3 text-3xl sm:text-4xl md:text-5xl font-bold"
-            variants={itemVariants}
+          <motion.p
+            variants={item}
+            className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-muted"
           >
-            <span className="text-slate-300">개발자,</span>
-            <span className="relative">
-              <span className="bg-linear-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
-                {PERSONAL_INFO.name}
-              </span>
-              <motion.span
-                className="absolute -bottom-1 left-0 w-full h-1 bg-linear-to-r from-emerald-500 to-blue-500 rounded-full"
-                initial={{ scaleX: 0, originX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 1, duration: 0.6 }}
-              />
-            </span>
-          </motion.div>
-        </div>
+            {PROFILE.intro}
+          </motion.p>
 
-        {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
-          variants={itemVariants}
-        >
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => onNavigate("projects")}
-            rightIcon={
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            }
+          {/* 핵심 지표 — 카운트업 */}
+          <motion.div
+            variants={item}
+            className="mt-8 grid w-fit grid-cols-4 gap-6 sm:gap-9"
           >
-            프로젝트 보기
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={() => onNavigate("contact")}
+            {stats.map(({ value, suffix, label, color }) => (
+              <div key={label}>
+                <p
+                  className={`text-[26px] font-extrabold leading-none tracking-tight sm:text-3xl ${color}`}
+                >
+                  <Counter to={value} suffix={suffix} />
+                </p>
+                <p className="mt-1.5 text-[11.5px] font-semibold text-muted">
+                  {label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            variants={item}
+            className="mt-9 flex flex-wrap items-center gap-3"
           >
-            연락하기
-          </Button>
+            <Button onClick={() => onNavigate("projects")}>
+              프로젝트 보기 <ArrowRight size={15} />
+            </Button>
+            {SITE.resume.pdfPath ? (
+              <Button variant="ghost" href={SITE.resume.pdfPath} external>
+                <FileDown size={15} /> 이력서 다운로드
+              </Button>
+            ) : (
+              <Pending label="이력서 PDF — 파일 전달 시 버튼 활성화" />
+            )}
+            {PROFILE.links.github && (
+              <Button variant="ghost" href={PROFILE.links.github} external>
+                <Github size={15} /> GitHub
+              </Button>
+            )}
+            {PROFILE.links.blog && (
+              <Button variant="ghost" href={PROFILE.links.blog} external>
+                <Rss size={15} /> 블로그
+              </Button>
+            )}
+          </motion.div>
         </motion.div>
 
-        {/* Core Architecture Badges */}
-        <CoreArchitectureBadge />
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 0.5 }}
-      >
-        <motion.button
-          onClick={() => onNavigate("about")}
-          className="p-2 rounded-full text-slate-500 hover:text-emerald-400 transition-colors"
-          aria-label="Scroll down"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        {/* ===== 우측: 성과 스냅샷 카드 ===== */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="hidden flex-col gap-4 lg:flex"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </motion.button>
-      </motion.div>
+          {SNAPSHOT_CARDS.map(
+            ({ icon: Icon, chip, title, sub, offset, floatDelay }) => (
+              <motion.div key={title} variants={item} className={offset}>
+                <motion.div
+                  animate={{ y: [0, -7, 0] }}
+                  transition={{
+                    duration: 5.5,
+                    delay: floatDelay,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="flex items-center gap-4 rounded-xl border border-line bg-surface/90 p-4 shadow-[0_10px_30px_rgba(38,34,26,0.07)] backdrop-blur-sm"
+                >
+                  <span
+                    className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg ${chip}`}
+                  >
+                    <Icon size={19} />
+                  </span>
+                  <span>
+                    <span className="block text-[15px] font-bold leading-snug">
+                      {title}
+                    </span>
+                    <span className="mt-0.5 block text-[12.5px] text-muted">
+                      {sub}
+                    </span>
+                  </span>
+                </motion.div>
+              </motion.div>
+            )
+          )}
+        </motion.div>
+      </div>
+
+      {/* 스크롤 안내 */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
+        onClick={() => onNavigate("about")}
+        aria-label="아래로 스크롤"
+        className="absolute bottom-[4.5rem] left-1/2 hidden -translate-x-1/2 text-muted transition-colors hover:text-accent lg:block"
+      >
+        <ChevronDown size={20} className="animate-bounce" />
+      </motion.button>
+
+      {/* ===== 기술 아이콘 마키 스트립 ===== */}
+      <div className="relative border-t border-line/60 bg-surface/60 py-3.5 backdrop-blur-sm">
+        <div
+          className="overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+          }}
+        >
+          <div className="flex w-max animate-marquee gap-9 hover:[animation-play-state:paused]">
+            {[...MARQUEE_ICONS, ...MARQUEE_ICONS].map(([file, name], i) => (
+              <span
+                key={`${file}-${i}`}
+                className="flex shrink-0 items-center gap-2 text-[12px] font-semibold text-muted"
+              >
+                <img
+                  src={`/icons/${file}.svg`}
+                  alt=""
+                  loading="lazy"
+                  className="h-5 w-5 object-contain"
+                />
+                {name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

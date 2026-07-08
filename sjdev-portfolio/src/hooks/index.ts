@@ -1,6 +1,3 @@
-// ============================================
-// 🪝 Hooks Index
-// ============================================
-
 export { useScrollSection } from "./useScrollSection";
-export { useIntersectionObserver } from "./useIntersectionObserver";
+export { useTheme } from "./useTheme";
+export type { ThemeMode } from "./useTheme";

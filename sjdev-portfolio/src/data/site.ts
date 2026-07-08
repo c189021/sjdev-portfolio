@@ -11,7 +11,6 @@ export const NAV_SECTIONS: NavSection[] = [
   { id: "projects", label: "Projects" },
   { id: "research", label: "Research" },
   { id: "activities", label: "Activities" },
-  { id: "skills", label: "Skills" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -24,11 +23,8 @@ export const SITE: SiteConfig = {
       "홍익대학교 소프트웨어융합학과. AI/LLM·웹 개발 중심 프로젝트 10개, 국제 논문지 게재 포함 논문 3편, 다수 수상.",
     url: "https://박성진.com",
   },
-  resume: { pdfPath: null },
-  todos: [
-    "확인 필요: 메타 타이틀·설명 문구 확정",
-    "결정 필요: 이력서(PDF) 다운로드 기능 채택 여부 (PHASE 3)",
-  ],
+  resume: { pdfPath: "/resume.pdf" },
+  todos: [],
 };
 
 // ===== 화면 표시용 라벨 =====

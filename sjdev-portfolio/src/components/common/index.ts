@@ -1,9 +1,9 @@
-// ============================================
-// 🔧 Common Components Index
-// ============================================
-
-export { default as SectionWrapper } from "./SectionWrapper";
-export { default as SectionTitle } from "./SectionTitle";
+export { default as SectionShell } from "./SectionShell";
 export { default as Card } from "./Card";
 export { default as Button } from "./Button";
 export { default as Badge } from "./Badge";
+export { default as Chip } from "./Chip";
+export { default as Tag } from "./Tag";
+export { default as Modal } from "./Modal";
+export { default as Pending } from "./Pending";
+export { default as Reveal } from "./Reveal";

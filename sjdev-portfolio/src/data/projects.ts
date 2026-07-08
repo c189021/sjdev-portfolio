@@ -13,7 +13,7 @@ export const PROJECTS: Project[] = [
       "사이트에 상관없이 자연어 질문을 '어디를 클릭해야 하는지'로 변환해 화면에 직접 표시하는 LLM 웹 내비게이션 크롬 확장 프로그램",
     summary:
       "전자상거래·금융·공공·의료 등 메뉴가 복잡한 사이트에서 사용자(특히 고령층)가 정보를 못 찾는 문제를 해결합니다. 내장 챗봇(단일 사이트 한정)·범용 AI(화면 맥락을 못 읽음)·자동화 에이전트(대신 클릭해 학습 효과 상실)의 한계를 넘어, 대신 눌러주지 않고 '경로만 안내'해 사용자 통제와 학습 효과를 유지합니다. 크롬 확장이라 어떤 HTML 사이트에서도 동작합니다.",
-    period: null,
+    period: "2026.04 – 2026.05",
     status: "completed",
     kind: "team",
     domains: ["ai-llm", "web"],
@@ -27,7 +27,8 @@ export const PROJECTS: Project[] = [
       "Shadow DOM",
     ],
     team: { size: 2, members: "박성호·박성진" },
-    myRole: null,
+    myRole:
+      "DOM 추출·클라이언트 검증 파트 담당 (클릭 요소 수집·가시성 필터링·휴리스틱 스코어링, LLM 응답 실존 요소 재검증)",
     implementation: [
       {
         title: "DOM 추출",
@@ -106,14 +107,16 @@ export const PROJECTS: Project[] = [
         refId: "pub-guider",
       },
     ],
-    links: { github: null, paper: null },
-    todos: [
-      "확인 필요: 담당 역할 확정 — 초안: 'DOM 추출·클라이언트 검증 파트 담당(클릭 요소 수집·가시성 필터링·휴리스틱 스코어링, LLM 응답 실존 요소 재검증)' (PDF 표시: 수정 필요)",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: GitHub 저장소 주소",
-      "확인 필요: 논문 링크 또는 PDF 파일 제공 여부",
-      "확인 필요: 스크린샷·시연 영상 자료 유무",
-    ],
+    links: { github: null, paper: "/papers/guider-ksii.pdf" },
+    media: {
+      thumbnail: "/projects/guider/screenshot-1.png",
+      images: [
+        "/projects/guider/screenshot-1.png",
+        "/projects/guider/screenshot-2.png",
+      ],
+      video: "/projects/guider/demo.mp4",
+    },
+    todos: ["확인 필요: GitHub 저장소 주소 (나중에 제공 예정)"],
   },
 
   // ============================================
@@ -126,9 +129,9 @@ export const PROJECTS: Project[] = [
     tagline:
       "음성·표정·텍스트를 개인 기준선 대비 변화량(Δ)으로 분석하고, 그 결과를 3인칭 숏폼 아바타 영상으로 재구성해 '자기 거리두기'를 유도하는 디지털 헬스케어 플랫폼",
     summary:
-      "국내 우울증 환자 100만 명 이상, 그중 70~80%가 자기 정서 상태를 정확히 인식하지 못하는 '정서적 객관화의 부재' 문제에서 출발했습니다. 이모티콘·텍스트 위주 기록 앱의 주관적 편향을 넘어, 심리학의 '자기 거리두기(Self-distancing)' 개념을 기술로 구현합니다. 하루의 감정을 멀티모달로 분석해 사용자 페르소나가 투영된 아바타 영상으로 만들어 제3자 시점에서 관찰하게 합니다.",
-    period: null,
-    status: "completed",
+      "국내 우울증 환자 100만 명 이상, 그중 70~80%가 자기 정서 상태를 정확히 인식하지 못하는 '정서적 객관화의 부재' 문제에서 출발했습니다. 이모티콘·텍스트 위주 기록 앱의 주관적 편향을 넘어, 심리학의 '자기 거리두기(Self-distancing)' 개념을 기술로 구현합니다. 하루의 감정을 멀티모달로 분석해 사용자 페르소나가 투영된 아바타 영상으로 만들어 제3자 시점에서 관찰하게 합니다. 한이음 드림업 산학 프로젝트로도 진행 중입니다.",
+    period: "2026.03 – 2026.09",
+    status: "in-progress",
     kind: "team",
     domains: ["ai-llm", "ml-data"],
     featured: true,
@@ -145,7 +148,8 @@ export const PROJECTS: Project[] = [
       "ChromaDB",
     ],
     team: { size: 5, members: "김다경·박성진·정재영·차한규·김병서" },
-    myRole: null,
+    myRole:
+      "멀티모달 분석 모듈 담당 (3모달 특성 추출·베이스라인-Δ 분석·부조화 감지 구현)",
     implementation: [
       {
         title: "베이스라인 캘리브레이션",
@@ -200,13 +204,10 @@ export const PROJECTS: Project[] = [
         text: "임상(PHQ-9·PSS)·행동·객관화 지표의 3중 평가 체계 설계",
       },
     ],
-    links: { github: null, paper: null },
+    links: { github: null, paper: "/papers/otto-kiiee.pdf" },
     todos: [
-      "확인 필요: 담당 역할 확정 — 초안: '멀티모달 분석 모듈 담당(3모달 특성 추출·베이스라인-Δ 분석·부조화 감지 구현)' (PDF 표시: 수정 필요)",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: GitHub 저장소 주소",
-      "확인 필요: 논문 링크 또는 PDF 파일 제공 여부",
-      "확인 필요: PDF 원문에서 '변화량( )'의 괄호 안 기호가 Δ가 맞는지",
+      "확인 필요: GitHub 저장소 주소 (나중에 제공 예정)",
+      "대기: 프로젝트 스크린샷·시연 자료",
     ],
   },
 
@@ -221,14 +222,15 @@ export const PROJECTS: Project[] = [
       "동일 요구사항으로 유료 LLM 3종과 인간 개발자가 만든 코드를, 자체 제작한 분석 웹앱으로 정량 비교한 소프트웨어공학 연구",
     summary:
       "LLM이 '동작하는 코드'를 넘어 구조적 품질·유지보수성을 갖추는지 객관적으로 검증했습니다. 순환복잡도(CC)·객체결합도(CBO)·라인수(LOC) 기반 '품질 게이트'를 제안하고, 개발자 역할을 단순 작성자(Coder)에서 AI 산출물을 검증하는 아키텍트(Validator & Architect)로 재정의합니다.",
-    period: null,
+    period: "2026.03 – 2026.04",
     status: "completed",
     kind: "team",
     domains: ["research", "ai-llm", "web"],
     featured: true,
     techStack: ["React", "JavaScript", "정적분석 (CC·CBO·LOC)"],
-    team: { size: null, members: "박성호·박성진" },
-    myRole: null,
+    team: { size: 2, members: "박성호·박성진" },
+    myRole:
+      "자체 코드 품질 분석 웹앱 개발 담당 (CC·CBO·LOC 자동 추출·비교 도구 구현)",
     implementation: [
       {
         title: "실험 설계",
@@ -259,13 +261,10 @@ export const PROJECTS: Project[] = [
         text: "개발자 역할을 'Validator & Architect'로 재정의하는 관점 제안",
       },
     ],
-    links: { github: null, paper: null },
+    links: { github: null, paper: "/papers/refactory-ask.pdf" },
     todos: [
-      "확인 필요: 담당 역할 확정 — 초안: '자체 코드 품질 분석 웹앱 개발 담당(CC·CBO·LOC 자동 추출·비교 도구 구현)' (PDF 표시: 수정 필요)",
-      "확인 필요: 팀 구성(학부생 2인 외 참여자 여부)",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: GitHub 저장소·분석 웹앱 주소",
-      "확인 필요: 논문 링크 또는 PDF 파일 제공 여부",
+      "확인 필요: GitHub 저장소·분석 웹앱 주소 (나중에 제공 예정)",
+      "대기: 프로젝트 스크린샷 자료",
     ],
   },
 
@@ -280,14 +279,14 @@ export const PROJECTS: Project[] = [
       "실시간 기상 데이터와 과거 열수요를 결합해 향후 24시간 지역난방 열수요를 예측, 과소·과다 공급을 막고 에너지 효율을 최적화하는 시계열 ML 프로젝트",
     summary:
       "지역난방 시스템의 시간대별·계절별 열수요 예측 부정확은 에너지 낭비와 비용·환경 부담을 키웁니다. 기상청 날씨마루(bd.kma.go.kr)의 열수요·기상관측·객관분석 자료를 융합해 향후 24시간 열수요를 예측, 공급 효율을 극대화하고 과소·과다 공급을 방지합니다.",
-    period: null,
+    period: "2025.04 – 2025.05",
     status: "completed",
     kind: "team",
     domains: ["ml-data"],
     featured: false,
     techStack: ["Python", "LSTM", "TensorFlow/Keras", "시계열 예측"],
-    team: { size: null },
-    myRole: null,
+    team: { size: 2 },
+    myRole: "데이터 전처리·모델 학습 담당",
     implementation: [
       {
         title: "데이터 설계",
@@ -308,14 +307,7 @@ export const PROJECTS: Project[] = [
     problemSolving: [],
     outcomes: [],
     links: { github: null },
-    todos: [
-      "확인 필요: 담당 역할 확정 — 초안: '데이터 전처리·모델 학습 담당' (PDF 표시: 수정 필요)",
-      "확인 필요: 팀 규모",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: 문제 해결 경험 — 초안: '계절별 열수요 편차로 단일 모델 정확도 저하 → 시간·계절 변수를 피처로 추가해 보완' (사실 확인 후 반영)",
-      "확인 필요: 성과 수치 — 목표는 오차범위 5% 내 예측이었으며, 실제 달성한 RMSE/MAE 수치 필요",
-      "확인 필요: GitHub 저장소 주소",
-    ],
+    todos: ["확인 필요: GitHub 저장소 주소 (나중에 제공 예정)"],
   },
 
   // ============================================
@@ -326,21 +318,22 @@ export const PROJECTS: Project[] = [
     title: "낙상방지 웹 애플리케이션",
     subtitle: "실시간 낙상 감지·알림 시스템",
     tagline:
-      "노인의 움직임을 실시간 모니터링해 낙상을 빠르게 감지하고, 보호자·관리자에게 즉시 알림을 보내는 웹 애플리케이션",
+      "카메라 영상에서 추출한 스켈레톤(관절) 정보로 노인의 움직임을 실시간 분석해 낙상을 감지하고, 보호자·관리자에게 즉시 알림을 보내는 웹 애플리케이션",
     summary:
-      "고령자 낙상은 발견이 늦으면 큰 사고로 이어집니다. 움직임 데이터를 실시간 모니터링해 낙상을 감지하고 이상 상황을 즉시 알림으로 전달, 대응 시간을 단축하는 것을 목표로 한 데이터베이스 팀 프로젝트입니다.",
-    period: null,
+      "고령자 낙상은 발견이 늦으면 큰 사고로 이어집니다. 영상 기반 스켈레톤 인식 모델로 움직임을 실시간 분석해 낙상을 감지하고 이상 상황을 즉시 알림으로 전달, 대응 시간을 단축하는 것을 목표로 한 데이터베이스 팀 프로젝트입니다.",
+    period: "2025.09 – 2025.11",
     status: "completed",
     kind: "team",
     domains: ["web"],
     featured: false,
     techStack: ["Spring Boot", "React", "Python", "MySQL"],
-    team: { size: null },
-    myRole: null,
+    team: { size: 4 },
+    myRole: "백엔드(Spring Boot) API·DB 설계 담당",
     implementation: [
       {
         title: "실시간 모니터링",
-        description: "움직임 데이터 수집 및 낙상 판별 로직 구현 (Python).",
+        description:
+          "카메라 영상에서 스켈레톤(관절 좌표)을 추출해 움직임 패턴을 분석, 낙상 여부를 판별하는 로직 구현 (Python).",
       },
       {
         title: "백엔드",
@@ -349,25 +342,24 @@ export const PROJECTS: Project[] = [
       {
         title: "DB 설계",
         description:
-          "사용자·움직임 로그·낙상 이벤트·알림 이력 테이블 및 조회 쿼리 설계.",
+          "사용자·움직임 로그·낙상 이벤트·알림 이력 테이블 및 조회 쿼리 설계 (MySQL).",
       },
       {
         title: "프론트엔드",
         description: "React 실시간 모니터링 대시보드·알림 UI.",
       },
     ],
-    problemSolving: [],
+    problemSolving: [
+      {
+        problem: "정상 움직임과 낙상을 구분하지 못해 오탐(false positive)이 잦음",
+        approach: "임계값·패턴 조건을 조정해 오탐률 감소",
+      },
+    ],
     outcomes: [],
     links: { github: null },
     todos: [
-      "확인 필요: 담당 역할 확정 — 초안: '백엔드(Spring Boot) API·DB 설계 담당' (PDF 표시: 수정 필요)",
-      "확인 필요: 팀 규모",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: DB가 MySQL이 맞는지 (PDF 표기: 'MySQL (DB 추정)')",
-      "확인 필요: 움직임 감지가 센서 기반인지 영상 기반인지",
-      "확인 필요: 문제 해결 경험 — 초안: '정상 움직임과 낙상을 구분 못해 오탐 잦음 → 임계값·패턴 조건 조정으로 오탐률 감소' (사실 확인 후 반영)",
-      "확인 필요: 성과 — 감지 정확도·알림 지연 시간 등 시연 결과",
       "확인 필요: DB 스키마(ERD) 자료 유무 — 있으면 상세에 강점으로 추가",
+      "대기: 프로젝트 스크린샷·시연 자료",
     ],
   },
 
@@ -382,18 +374,19 @@ export const PROJECTS: Project[] = [
       "노인이 전화·문자·카메라 등 스마트폰 앱 사용법을 익히도록 돕는 디지털 리터러시 교육 웹 애플리케이션",
     summary:
       "디지털 소외 계층인 고령자가 전화·문자·카메라 등 필수 앱 사용에 겪는 어려움을 해결하기 위해, 주요 앱 사용법을 단계별로 학습하는 교육용 웹 애플리케이션을 개발했습니다. 메타버스 융합SW아카데미 5기 수료작입니다.",
-    period: null,
+    period: "2025.02 – 2025.05",
     status: "completed",
     kind: "team",
     domains: ["web"],
     featured: false,
     techStack: ["React", "Spring Boot", "MySQL"],
-    team: { size: null },
-    myRole: null,
+    team: { size: 4 },
+    myRole: "프론트엔드(React) UI·학습 콘텐츠 화면 구현 담당",
     implementation: [
       {
         title: "프론트엔드",
-        description: "React로 노인 접근성을 고려한 화면 구성.",
+        description:
+          "React로 큰 글씨·단순 동선 등 고령자 접근성을 고려한 화면 구성.",
       },
       {
         title: "백엔드",
@@ -405,23 +398,22 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "학습 기능",
-        description: "전화·문자·카메라 등 앱별 사용법을 단계별로 제공.",
+        description:
+          "전화·문자·카메라 등 앱별 사용법을 교육 후 직접 따라 해보는 실습형으로 단계별 제공.",
       },
     ],
-    problemSolving: [],
-    outcomes: [
-      { kind: "etc", text: "메타버스 융합SW아카데미 5기 수료작" },
+    problemSolving: [
+      {
+        problem: "고령 사용자가 복잡한 UI에서 이탈",
+        approach: "버튼·글씨 크기 확대, 화면당 정보량 축소로 개선",
+      },
     ],
+    outcomes: [{ kind: "etc", text: "메타버스 융합SW아카데미 5기 수료작" }],
     links: { github: null },
     todos: [
-      "확인 필요: 담당 역할 확정 — 초안: '프론트엔드(React) UI·학습 콘텐츠 화면 구현 담당' (PDF 표시: 수정 필요)",
-      "확인 필요: 팀 규모",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: 접근성 반영 내용 — 초안: '큰 글씨·단순 동선 등' (실제 반영 부분 확인)",
-      "확인 필요: 학습 기능 형태 — 실습형/영상/퀴즈 여부",
-      "확인 필요: 문제 해결 경험 — 초안: '고령 사용자가 복잡한 UI에서 이탈 → 버튼·글씨 크기 확대, 화면당 정보량 축소로 개선' (사실 확인 후 반영)",
       "확인 필요: 시연·평가 결과 유무",
-      "확인 필요: GitHub 저장소 주소",
+      "확인 필요: GitHub 저장소 주소 (나중에 제공 예정)",
+      "대기: 프로젝트 스크린샷 자료",
     ],
   },
 
@@ -433,41 +425,38 @@ export const PROJECTS: Project[] = [
     title: "서울대 이차전지연구소 플러그인",
     subtitle: "맞춤형 워드프레스 플러그인 (외주)",
     tagline:
-      "서울대학교 이차전지연구소를 위한 맞춤형 워드프레스 플러그인 개발 — 실제 클라이언트 대상 외주 프로젝트",
+      "서울대학교 이차전지연구소 워드프레스 사이트에 좌석 예약·이용 현황 확인 기능을 추가한 맞춤형 플러그인 개발 — 실제 클라이언트 대상 외주 프로젝트",
     summary:
-      "서울대학교 이차전지연구소 요구사항에 맞춰 기존 워드프레스 사이트에 필요한 기능을 붙이는 맞춤형 플러그인을 개발한 외주 프로젝트입니다.",
-    period: null,
+      "서울대학교 이차전지연구소의 요구에 맞춰 기존 워드프레스 사이트에 좌석 예약 및 이용 현황을 확인할 수 있는 커스텀 플러그인을 개발했습니다. 프론트엔드(JavaScript) 인터랙션 구현을 담당했으며, 실제 클라이언트에 정식 납품되어 운영 중입니다.",
+    period: "2025.01 – 2025.02",
     status: "completed",
     kind: "freelance",
     domains: ["web"],
     featured: false,
     techStack: ["WordPress", "PHP", "JavaScript"],
     team: { size: null },
-    myRole: null,
+    myRole: "프론트엔드(JavaScript) 인터랙션 구현 담당 (좌석 예약·이용 현황 기능)",
     implementation: [
       {
         title: "플러그인 개발",
         description: "PHP로 워드프레스 훅·API 기반 커스텀 플러그인 구현.",
       },
       {
-        title: "프론트 인터랙션",
-        description: "JavaScript로 프론트 인터랙션 처리.",
+        title: "좌석 예약·이용 현황 기능",
+        description:
+          "JavaScript 기반 프론트 인터랙션으로 좌석 예약·이용 현황 확인 기능 구현.",
       },
     ],
     problemSolving: [],
     outcomes: [
       {
         kind: "etc",
-        text: "실제 클라이언트(서울대학교 연구소) 대상 납품 경험",
+        text: "실제 클라이언트(서울대학교 연구소)에 정식 납품, 현재 운영 중",
       },
     ],
     links: {},
     todos: [
-      "확인 필요: 단독 개발인지 협업인지 (협업이면 담당 파트)",
-      "확인 필요: 핵심 기능 — '열람실 기능 추가'가 맞는지, 구체 내용(좌석 예약/이용 현황 등)",
       "확인 필요: DB·관리자 페이지 연동 여부",
-      "확인 필요: 실 운영/배포 여부",
-      "확인 필요: 프로젝트 기간",
       "확인 필요: 문제 해결 경험 — 초안: '기존 테마와 충돌 없이 기능 확장 → 훅 기반 독립 플러그인화' (사실 확인 후 반영)",
     ],
   },
@@ -488,7 +477,7 @@ export const PROJECTS: Project[] = [
     kind: "personal",
     domains: ["web"],
     featured: false,
-    techStack: [],
+    techStack: ["React"],
     team: { size: 1 },
     myRole: "개인 프로젝트 (기획·개발 전체)",
     implementation: [],
@@ -496,7 +485,6 @@ export const PROJECTS: Project[] = [
     outcomes: [],
     links: {},
     todos: [
-      "확인 필요: 기술 스택 확정 (PDF 예시: React)",
       "예정: 개발 착수 후 핵심 구현·문제 해결·성과 채우기 (완성 전까지 '예정' 배지 노출)",
     ],
   },
@@ -512,21 +500,24 @@ export const PROJECTS: Project[] = [
       "자기주도학습 개발 동아리 N.O.D.E(Network Of Developer Evolution)에서 팀원 프로젝트를 전시하기 위해 기획·개발·배포한 팀 포트폴리오 웹사이트",
     summary:
       "동아리 팀원 각자의 프로젝트를 한곳에 전시하는 포트폴리오 웹사이트를 실전 개발 경험을 목표로 구축했습니다. 기획부터 프론트·백엔드 구현, AWS 배포까지 웹 개발 전체 라이프사이클을 직접 경험한 팀 프로젝트입니다.",
-    period: null,
+    period: "2025.03 – 2025.05",
     status: "completed",
     kind: "team",
     domains: ["web"],
     featured: false,
     techStack: ["React", "HTML", "CSS", "JavaScript", "PHP", "AWS"],
-    team: { size: null },
-    myRole: null,
+    team: { size: 4 },
+    myRole: "프론트엔드 구현·AWS 배포 담당",
     implementation: [
       {
         title: "프론트엔드",
         description:
           "React·HTML·CSS·JavaScript로 팀원 프로젝트 전시 페이지·반응형 레이아웃 구현.",
       },
-      { title: "백엔드", description: "PHP로 데이터 처리." },
+      {
+        title: "백엔드",
+        description: "PHP로 팀원별 프로젝트 목록 데이터 처리·관리.",
+      },
       { title: "배포", description: "AWS에 실제 배포·운영." },
     ],
     problemSolving: [],
@@ -538,14 +529,11 @@ export const PROJECTS: Project[] = [
       },
       { kind: "etc", text: "AWS 실제 배포·운영" },
     ],
-    links: { site: null, github: null },
+    links: { site: "https://nodefolio.co.kr", github: null },
     todos: [
-      "확인 필요: 담당 역할 확정 — 초안: '프론트엔드 구현·AWS 배포 담당' (PDF 표시: 수정 필요)",
-      "확인 필요: 팀 규모",
-      "확인 필요: 프로젝트 기간",
-      "확인 필요: 백엔드(PHP) 구체 처리 내용 — 프로젝트 목록 관리 등",
       "확인 필요: 문제 해결 경험 — 초안: '여러 팀원 프로젝트 데이터를 일관된 형식으로 전시하는 구조 설계' (사실 확인 후 반영)",
-      "확인 필요: 사이트 URL(운영 중이면)·GitHub 저장소 주소",
+      "확인 필요: GitHub 저장소 주소 (나중에 제공 예정)",
+      "대기: 프로젝트 스크린샷 자료",
     ],
   },
 
@@ -559,15 +547,15 @@ export const PROJECTS: Project[] = [
     tagline:
       "교육과정 소개·수강 신청·공지사항을 중심으로 한 메타버스 아카데미 홈페이지를 제작하고, 디자인 개편·기능 추가·유지보수로 안정적 서비스를 제공한 웹 제작·운영 프로젝트",
     summary:
-      "메타버스 아카데미의 교육과정 소개·수강 신청·공지사항 기능을 중심으로 홈페이지를 제작하고, 이후 지속적인 디자인 개편·기능 추가·유지보수를 수행했습니다. 단발성 개발이 아니라 실제 운영되는 서비스를 안정적으로 유지·개선한 근로 프로젝트입니다.",
-    period: null,
-    status: "completed",
+      "메타버스 아카데미의 교육과정 소개·수강 신청·공지사항 기능을 중심으로 홈페이지를 제작하고, 이후 지속적인 디자인 개편·기능 추가·유지보수를 수행했습니다. 단발성 개발이 아니라 실제 운영되는 서비스를 안정적으로 유지·개선하는 근로 프로젝트입니다.",
+    period: "2025.12 – 2026.12",
+    status: "in-progress",
     kind: "work",
     domains: ["web"],
     featured: false,
-    techStack: [],
+    techStack: ["React", "PHP", "AWS", "Linux"],
     team: { size: null },
-    myRole: null,
+    myRole: "사이트 제작·서버 운영·유지보수 담당",
     implementation: [
       {
         title: "홈페이지 제작",
@@ -583,7 +571,7 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "서버 관리",
-        description: "서비스 안정성 유지를 위한 서버 운영·모니터링.",
+        description: "AWS·Linux 환경에서 서비스 안정성 유지를 위한 서버 운영·모니터링.",
       },
     ],
     problemSolving: [],
@@ -594,13 +582,12 @@ export const PROJECTS: Project[] = [
       },
     ],
     links: { site: null },
+    media: {
+      thumbnail: "/projects/metaverse/screenshot-1.png",
+      images: ["/projects/metaverse/screenshot-1.png"],
+    },
     todos: [
-      "확인 필요: 실제 기술 스택 (PDF에는 예시로 'React/PHP·AWS·Linux' 기재 — 미확정)",
-      "확인 필요: 근로 형태·팀 여부 및 담당 범위",
-      "확인 필요: 운영 기간·이용자 규모",
       "확인 필요: 디자인 개편의 구체 변경 내용",
-      "확인 필요: 서버 환경 (AWS 등)",
-      "확인 필요: 운영 중 장애·트래픽 대응 등 문제 해결 사례",
       "확인 필요: 사이트 URL 공개 가능 여부",
     ],
   },

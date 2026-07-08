@@ -1,64 +1,66 @@
-// ============================================
-// 🔘 Button Component
-// 재사용 가능한 버튼 컴포넌트
-// ============================================
-
-import type { ReactNode, ButtonHTMLAttributes } from "react";
+import type { ReactNode } from "react";
 import { cn } from "../../utils/helpers";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonVariant = "primary" | "ghost" | "soft";
+type ButtonSize = "sm" | "md";
+
+interface ButtonProps {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "ghost" | "outline";
-  size?: "sm" | "md" | "lg";
-  fullWidth?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  /** 있으면 <a>로 렌더링 */
+  href?: string;
+  /** 새 탭 열기 (href와 함께 사용) */
+  external?: boolean;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
 }
+
+const VARIANT_CLASSES: Record<ButtonVariant, string> = {
+  primary: "bg-accent text-on-accent hover:bg-accent-hover",
+  ghost: "border border-line bg-surface text-ink hover:border-accent/50 hover:text-accent",
+  soft: "bg-accent-soft text-accent hover:bg-accent/15",
+};
+
+const SIZE_CLASSES: Record<ButtonSize, string> = {
+  sm: "px-3.5 py-2 text-[13px]",
+  md: "px-5 py-2.5 text-sm",
+};
 
 const Button = ({
   children,
   variant = "primary",
   size = "md",
-  fullWidth = false,
-  leftIcon,
-  rightIcon,
+  href,
+  external = false,
+  onClick,
   className,
-  ...props
+  disabled = false,
 }: ButtonProps) => {
-  const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-navy-950 disabled:opacity-50 disabled:cursor-not-allowed";
+  const classes = cn(
+    "inline-flex items-center justify-center gap-1.5 rounded-lg font-bold transition-colors",
+    VARIANT_CLASSES[variant],
+    SIZE_CLASSES[size],
+    disabled && "pointer-events-none opacity-50",
+    className
+  );
 
-  const variants = {
-    primary:
-      "bg-gradient-to-r from-emerald-500 to-blue-500 text-white hover:shadow-lg hover:shadow-emerald-500/25 hover:-translate-y-0.5 focus:ring-emerald-500",
-    secondary:
-      "bg-slate-800 text-white hover:bg-slate-700 focus:ring-slate-500",
-    ghost:
-      "text-slate-400 hover:text-white hover:bg-slate-800/50 focus:ring-slate-500",
-    outline:
-      "border border-slate-700 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-400 focus:ring-emerald-500",
-  };
-
-  const sizes = {
-    sm: "px-4 py-2 text-sm gap-1.5",
-    md: "px-6 py-3 text-base gap-2",
-    lg: "px-8 py-4 text-lg gap-2.5",
-  };
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={classes}
+        {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+      >
+        {children}
+      </a>
+    );
+  }
 
   return (
-    <button
-      className={cn(
-        baseStyles,
-        variants[variant],
-        sizes[size],
-        fullWidth && "w-full",
-        className
-      )}
-      {...props}
-    >
-      {leftIcon && <span className="shrink-0">{leftIcon}</span>}
+    <button onClick={onClick} disabled={disabled} className={classes}>
       {children}
-      {rightIcon && <span className="shrink-0">{rightIcon}</span>}
     </button>
   );
 };

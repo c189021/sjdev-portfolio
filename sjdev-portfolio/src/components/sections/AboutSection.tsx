@@ -1,422 +1,265 @@
-// ============================================
-// � AboutSection Component
-// Interactive System Terminal Style
-// ============================================
+import { useEffect, useState } from "react";
+import {
+  ArrowUpRight,
+  BookOpen,
+  Layers,
+  Sparkles,
+  Users,
+  Wrench,
+} from "lucide-react";
+import { PROFILE, PROJECTS, SKILL_CATEGORIES } from "../../data";
+import { Card, Chip, Reveal, SectionShell } from "../common";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { SectionWrapper } from "../common";
-import { PERSONAL_INFO } from "../../constants/data";
+// 키워드 카드 — 각자 고유색, 설명은 한 줄로
+const KEYWORDS = [
+  {
+    icon: Sparkles,
+    chip: "bg-domain-ai/12 text-domain-ai",
+    title: "AI · LLM",
+    description: "LLM 내비게이션·멀티모달 감정 분석을 동작하는 제품으로.",
+  },
+  {
+    icon: Layers,
+    chip: "bg-domain-web/12 text-domain-web",
+    title: "웹 풀사이클",
+    description: "기획부터 프론트·백엔드·배포·운영까지 전 주기 직접 경험.",
+  },
+  {
+    icon: BookOpen,
+    chip: "bg-domain-research/12 text-domain-research",
+    title: "연구 · 논문",
+    description: "실험으로 검증해 논문 3편(국제 논문지 1편)으로 기록.",
+  },
+  {
+    icon: Users,
+    chip: "bg-accent-soft text-accent",
+    title: "리더십",
+    description: "학생회장 · 4개 학년도 과대표.",
+  },
+];
 
-// 터미널 커맨드 타입
-interface TerminalLine {
-  id: number;
-  type: "command" | "output" | "success" | "info" | "error";
-  content: string;
-  delay?: number;
-}
-
-// 타이핑 애니메이션 컴포넌트
-const TypeWriter = ({
-  text,
-  onComplete,
-  speed = 50,
-}: {
-  text: string;
-  onComplete?: () => void;
-  speed?: number;
-}) => {
-  const [displayText, setDisplayText] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
-
-  useEffect(() => {
-    if (displayText.length < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(text.slice(0, displayText.length + 1));
-      }, speed);
-      return () => clearTimeout(timeout);
-    } else {
-      setIsComplete(true);
-      onComplete?.();
-    }
-  }, [displayText, text, speed, onComplete]);
-
-  return (
-    <span>
-      {displayText}
-      {!isComplete && <span className="animate-pulse">_</span>}
-    </span>
-  );
+// 스킬 카테고리별 강조색 (아이콘 없는 스킬의 모노그램 칩 + 호버 링)
+const CATEGORY_STYLE: Record<string, { mono: string; ring: string }> = {
+  "ai-llm": { mono: "bg-domain-ai/12 text-domain-ai", ring: "hover:border-domain-ai/50" },
+  frontend: { mono: "bg-accent-soft text-accent", ring: "hover:border-accent/50" },
+  backend: { mono: "bg-domain-web/12 text-domain-web", ring: "hover:border-domain-web/50" },
+  "data-ml": { mono: "bg-domain-ml/12 text-domain-ml", ring: "hover:border-domain-ml/50" },
+  "db-infra": { mono: "bg-domain-research/12 text-domain-research", ring: "hover:border-domain-research/50" },
 };
 
-// 깜빡이는 커서 컴포넌트
-const BlinkingCursor = () => (
-  <motion.span
-    className="inline-block w-2.5 h-5 bg-emerald-400 ml-1"
-    animate={{ opacity: [1, 0, 1] }}
-    transition={{ duration: 1, repeat: Infinity }}
-  />
-);
+const AboutSection = () => {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  // 클릭 팝오버 — 여러 프로젝트가 쓰는 스택에서 프로젝트를 골라 연다
+  const [openSkillKey, setOpenSkillKey] = useState<string | null>(null);
 
-// 터미널 라인 렌더러
-const TerminalLineRenderer = ({
-  line,
-  isTyping,
-  onTypeComplete,
-}: {
-  line: TerminalLine;
-  isTyping: boolean;
-  onTypeComplete?: () => void;
-}) => {
-  const getLineStyle = () => {
-    switch (line.type) {
-      case "command":
-        return "text-emerald-400";
-      case "success":
-        return "text-emerald-400";
-      case "info":
-        return "text-blue-400";
-      case "error":
-        return "text-red-400";
-      default:
-        return "text-slate-300";
-    }
-  };
+  useEffect(() => {
+    if (!openSkillKey) return;
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
+      if (!(e.target as HTMLElement).closest("[data-skill-pop]")) {
+        setOpenSkillKey(null);
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenSkillKey(null);
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openSkillKey]);
 
-  const getPrefix = () => {
-    switch (line.type) {
-      case "command":
-        return (
-          <span className="text-slate-500">
-            <span className="text-blue-400">sjdev</span>
-            <span className="text-slate-600">@</span>
-            <span className="text-purple-400">portfolio</span>
-            <span className="text-slate-500"> ~ % </span>
-          </span>
-        );
-      case "success":
-        return <span className="text-emerald-400 font-bold">[SUCCESS] </span>;
-      case "info":
-        return <span className="text-blue-400">[INFO] </span>;
-      case "error":
-        return <span className="text-red-400">[ERROR] </span>;
-      default:
-        return null;
-    }
+  const tiles = SKILL_CATEGORIES.flatMap((category) =>
+    category.skills.map((skill) => ({ ...skill, categoryId: category.id }))
+  ).filter((t) => activeCategory === "all" || t.categoryId === activeCategory);
+
+  const openProject = (projectId: string) => {
+    // 해시 딥링크 → ProjectsSection의 hashchange 리스너가 모달을 연다
+    window.location.assign(`#project=${projectId}`);
+    setOpenSkillKey(null);
   };
 
   return (
-    <motion.div
-      className={`font-mono text-sm md:text-base leading-relaxed ${getLineStyle()}`}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.2 }}
-    >
-      {getPrefix()}
-      {line.type === "command" && isTyping ? (
-        <TypeWriter
-          text={line.content}
-          onComplete={onTypeComplete}
-          speed={40}
-        />
-      ) : (
-        <span>{line.content}</span>
-      )}
-    </motion.div>
-  );
-};
-
-// 메인 터미널 컴포넌트
-const SystemTerminal = () => {
-  const [visibleLines, setVisibleLines] = useState<TerminalLine[]>([]);
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [isTypingCommand, setIsTypingCommand] = useState(false);
-  const [showFinalCursor, setShowFinalCursor] = useState(false);
-  const terminalRef = useRef<HTMLDivElement>(null);
-
-  // 터미널 스크립트 정의
-  const terminalScript: TerminalLine[] = [
-    { id: 1, type: "command", content: "whoami", delay: 500 },
-    { id: 2, type: "output", content: "", delay: 100 },
-    {
-      id: 3,
-      type: "success",
-      content: `${PERSONAL_INFO.name} (${PERSONAL_INFO.nameEn})`,
-      delay: 50,
-    },
-    {
-      id: 4,
-      type: "output",
-      content: `📍 ${PERSONAL_INFO.university} ${PERSONAL_INFO.major}`,
-      delay: 100,
-    },
-    { id: 5, type: "output", content: `💼 ${PERSONAL_INFO.title}`, delay: 100 },
-    { id: 6, type: "output", content: "", delay: 200 },
-
-    { id: 7, type: "command", content: "cat core_values.txt", delay: 800 },
-    { id: 8, type: "output", content: "", delay: 100 },
-    { id: 9, type: "info", content: "Loading core values...", delay: 50 },
-    {
-      id: 10,
-      type: "output",
-      content: "┌─────────────────────────────────────────┐",
-      delay: 100,
-    },
-    {
-      id: 11,
-      type: "output",
-      content: "│  🎯 사용자 경험(UX)을 최우선으로       │",
-      delay: 100,
-    },
-    {
-      id: 12,
-      type: "output",
-      content: "│  🔒 데이터 무결성을 최우선으로 합니다  │",
-      delay: 100,
-    },
-    {
-      id: 13,
-      type: "output",
-      content: "│  📐 Clean Code & 유지보수성 추구       │",
-      delay: 100,
-    },
-    {
-      id: 14,
-      type: "output",
-      content: "│  🚀 끊임없는 학습과 성장               │",
-      delay: 100,
-    },
-    {
-      id: 15,
-      type: "output",
-      content: "└─────────────────────────────────────────┘",
-      delay: 100,
-    },
-    {
-      id: 16,
-      type: "success",
-      content: "Core values loaded successfully",
-      delay: 200,
-    },
-    { id: 17, type: "output", content: "", delay: 300 },
-
-    { id: 18, type: "command", content: "fetch --skills", delay: 800 },
-    { id: 19, type: "output", content: "", delay: 100 },
-    { id: 20, type: "info", content: "Fetching tech stack...", delay: 50 },
-    { id: 21, type: "output", content: "", delay: 100 },
-    {
-      id: 22,
-      type: "output",
-      content: "  Backend:   🍃 Spring Boot  ☕ Java  🐬 MySQL",
-      delay: 150,
-    },
-    {
-      id: 23,
-      type: "output",
-      content: "  Frontend:  ⚛️  React  📘 TypeScript  🎨 Tailwind",
-      delay: 150,
-    },
-    {
-      id: 24,
-      type: "output",
-      content: "  Tools:     📝 Swagger  🔧 Postman  📦 Git",
-      delay: 150,
-    },
-    { id: 25, type: "output", content: "", delay: 100 },
-    {
-      id: 26,
-      type: "success",
-      content: "Skills fetched: 9 technologies loaded",
-      delay: 200,
-    },
-    { id: 27, type: "output", content: "", delay: 300 },
-
-    { id: 28, type: "command", content: "echo $MISSION", delay: 800 },
-    { id: 29, type: "output", content: "", delay: 100 },
-    {
-      id: 30,
-      type: "output",
-      content: '"프론트엔드의 섬세함과 백엔드의 견고함을 겸비한',
-      delay: 100,
-    },
-    {
-      id: 31,
-      type: "output",
-      content: ' 풀스택 개발자로 성장하는 것"',
-      delay: 100,
-    },
-    { id: 32, type: "output", content: "", delay: 200 },
-    {
-      id: 33,
-      type: "success",
-      content: "Mission statement displayed",
-      delay: 100,
-    },
-  ];
-
-  // 터미널 스크립트 실행
-  useEffect(() => {
-    if (currentLineIndex >= terminalScript.length) {
-      setShowFinalCursor(true);
-      return;
-    }
-
-    const currentLine = terminalScript[currentLineIndex];
-    const delay = currentLine.delay || 100;
-
-    if (currentLine.type === "command") {
-      // 커맨드는 타이핑 애니메이션으로
-      const timeout = setTimeout(() => {
-        setVisibleLines((prev) => [...prev, currentLine]);
-        setIsTypingCommand(true);
-      }, delay);
-      return () => clearTimeout(timeout);
-    } else {
-      // 일반 출력은 바로 표시
-      const timeout = setTimeout(() => {
-        setVisibleLines((prev) => [...prev, currentLine]);
-        setCurrentLineIndex((prev) => prev + 1);
-      }, delay);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentLineIndex]);
-
-  // 타이핑 완료 핸들러
-  const handleTypeComplete = () => {
-    setIsTypingCommand(false);
-    setCurrentLineIndex((prev) => prev + 1);
-  };
-
-  // 스크롤 자동 이동
-  useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-    }
-  }, [visibleLines]);
-
-  return (
-    <motion.div
-      className="w-full max-w-4xl mx-auto"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
-      {/* Terminal Window */}
-      <div className="rounded-xl overflow-hidden border border-slate-700/50 shadow-2xl shadow-black/20">
-        {/* Terminal Header - macOS Style */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/90 border-b border-slate-700/50">
-          {/* Traffic Lights */}
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors cursor-pointer" />
-          </div>
-
-          {/* Terminal Title */}
-          <div className="flex-1 text-center">
-            <span className="text-xs text-slate-500 font-medium">
-              sjdev@portfolio — zsh — 80×24
-            </span>
-          </div>
-
-          {/* Spacer for symmetry */}
-          <div className="w-14" />
-        </div>
-
-        {/* Terminal Body */}
-        <div
-          ref={terminalRef}
-          className="bg-slate-900/95 backdrop-blur-sm p-4 md:p-6 h-100 md:h-112 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
-        >
-          {/* Welcome Message */}
-          <motion.div
-            className="mb-4 pb-4 border-b border-slate-800/50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="text-slate-500 font-mono text-xs md:text-sm">
-              <p>
-                Last login: {new Date().toLocaleDateString("ko-KR")} on ttys001
+    <SectionShell id="about" eyebrow="About" title="소개">
+      <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+        {/* 소개 문단 */}
+        <Reveal>
+          <div className="space-y-4 text-[15.5px] leading-relaxed">
+            <p className="text-[17px] font-semibold leading-relaxed">
+              {PROFILE.bio[0]}
+            </p>
+            {PROFILE.bio.slice(1).map((paragraph) => (
+              <p key={paragraph} className="text-muted">
+                {paragraph}
               </p>
-              <p className="text-emerald-500/70">
-                Welcome to sjdev-portfolio v1.0.0
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Terminal Lines */}
-          <div className="space-y-1">
-            <AnimatePresence>
-              {visibleLines.map((line, index) => (
-                <TerminalLineRenderer
-                  key={line.id}
-                  line={line}
-                  isTyping={
-                    isTypingCommand && index === visibleLines.length - 1
-                  }
-                  onTypeComplete={handleTypeComplete}
-                />
-              ))}
-            </AnimatePresence>
+            ))}
           </div>
+        </Reveal>
 
-          {/* Final Cursor */}
-          {showFinalCursor && (
-            <motion.div
-              className="mt-2 font-mono text-sm md:text-base"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <span className="text-slate-500">
-                <span className="text-blue-400">sjdev</span>
-                <span className="text-slate-600">@</span>
-                <span className="text-purple-400">portfolio</span>
-                <span className="text-slate-500"> ~ % </span>
-              </span>
-              <BlinkingCursor />
-            </motion.div>
-          )}
+        {/* 키워드 카드 2×2 */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {KEYWORDS.map(({ icon: Icon, chip, title, description }, index) => (
+            <Reveal key={title} delay={index * 0.08}>
+              <Card className="h-full">
+                <span
+                  className={`grid h-9 w-9 place-items-center rounded-lg ${chip}`}
+                >
+                  <Icon size={17} />
+                </span>
+                <h3 className="mt-3.5 text-[15px] font-extrabold">{title}</h3>
+                <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
+                  {description}
+                </p>
+              </Card>
+            </Reveal>
+          ))}
         </div>
       </div>
 
-      {/* Hint Text */}
-      <motion.p
-        className="text-center text-sm text-slate-500 mt-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-      >
-        💡 터미널 스타일로 저를 소개합니다
-      </motion.p>
-    </motion.div>
-  );
-};
-
-// 메인 AboutSection 컴포넌트
-const AboutSection = () => {
-  return (
-    <SectionWrapper id="about" className="bg-slate-900/20">
-      {/* Section Header */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-          System Terminal
-        </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto">
-          인터랙티브한 터미널 인터페이스로 저를 소개합니다
+      {/* ===== 기술 스택 ===== */}
+      <Reveal className="mt-16">
+        <p className="flex items-center gap-2 text-sm font-bold text-muted">
+          <Wrench size={15} /> 기술 스택
+          <span className="text-xs font-medium text-muted/70">
+            아이콘을 누르면 실제 사용한 프로젝트로 이동합니다
+          </span>
         </p>
-      </motion.div>
 
-      {/* Terminal Component */}
-      <SystemTerminal />
-    </SectionWrapper>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Chip
+            active={activeCategory === "all"}
+            onClick={() => {
+              setActiveCategory("all");
+              setOpenSkillKey(null);
+            }}
+          >
+            전체
+          </Chip>
+          {SKILL_CATEGORIES.map((category) => (
+            <Chip
+              key={category.id}
+              active={activeCategory === category.id}
+              onClick={() => {
+                setActiveCategory(category.id);
+                setOpenSkillKey(null);
+              }}
+            >
+              {category.label}
+            </Chip>
+          ))}
+        </div>
+
+        <div
+          key={activeCategory}
+          className="mt-5 grid animate-fade-in-up grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
+        >
+          {tiles.map((skill) => {
+            const style = CATEGORY_STYLE[skill.categoryId];
+            const key = `${skill.categoryId}-${skill.name}`;
+            const projects = skill.projectIds
+              .map((id) => PROJECTS.find((p) => p.id === id))
+              .filter((p): p is NonNullable<typeof p> => Boolean(p));
+            const isOpen = openSkillKey === key;
+
+            const handleTileClick = () => {
+              // 1개 → 바로 상세 모달, 여러 개(또는 노트만) → 팝오버
+              if (projects.length === 1) {
+                openProject(projects[0].id);
+              } else if (projects.length > 1 || skill.note) {
+                setOpenSkillKey(isOpen ? null : key);
+              }
+            };
+
+            return (
+              <div key={key} data-skill-pop className="group relative">
+                <button
+                  onClick={handleTileClick}
+                  className={`relative flex w-full flex-col items-center gap-2 rounded-xl border border-line bg-surface p-3.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_22px_rgba(38,34,26,0.08)] ${style.ring}`}
+                >
+                  {projects.length > 1 && (
+                    <span
+                      className={`absolute right-1.5 top-1.5 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[9.5px] font-extrabold ${style.mono}`}
+                    >
+                      {projects.length}
+                    </span>
+                  )}
+                  {skill.icon ? (
+                    <img
+                      src={`/icons/${skill.icon}`}
+                      alt=""
+                      loading="lazy"
+                      className="h-8 w-8 object-contain"
+                    />
+                  ) : (
+                    <span
+                      className={`grid h-8 w-8 place-items-center rounded-lg text-[13px] font-extrabold ${style.mono}`}
+                    >
+                      {skill.name.charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                  <span className="text-center text-[11.5px] font-semibold leading-tight">
+                    {skill.name}
+                  </span>
+                </button>
+
+                {/* 근거 툴팁 — 프로젝트명 한 줄에 하나씩, 단어 단위 줄바꿈 */}
+                {!isOpen && (projects.length > 0 || skill.note) && (
+                  <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden w-max max-w-60 -translate-x-1/2 break-keep rounded-lg bg-ink px-3 py-2 text-left text-[11px] font-medium leading-relaxed text-canvas shadow-lg group-hover:block">
+                    {projects.length > 0 ? (
+                      <>
+                        <span className="mb-0.5 block text-[10px] font-bold uppercase tracking-wide text-canvas/60">
+                          사용한 프로젝트
+                        </span>
+                        {projects.map((p) => (
+                          <span key={p.id} className="block">
+                            · {p.title}
+                          </span>
+                        ))}
+                      </>
+                    ) : (
+                      skill.note
+                    )}
+                  </span>
+                )}
+
+                {/* 클릭 팝오버 — 프로젝트 선택 메뉴 */}
+                {isOpen && (
+                  <div className="absolute bottom-full left-1/2 z-30 mb-2 w-52 -translate-x-1/2 animate-fade-in-up rounded-xl border border-line bg-surface p-1.5 shadow-xl">
+                    {projects.length > 0 ? (
+                      <>
+                        <p className="px-2 pb-1 pt-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+                          사용한 프로젝트
+                        </p>
+                        {projects.map((p) => (
+                          <button
+                            key={p.id}
+                            onClick={() => openProject(p.id)}
+                            className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-[12.5px] font-semibold transition-colors hover:bg-sunken"
+                          >
+                            <span className="break-keep">{p.title}</span>
+                            <ArrowUpRight
+                              size={12}
+                              className="shrink-0 text-muted"
+                            />
+                          </button>
+                        ))}
+                      </>
+                    ) : (
+                      <p className="break-keep px-2 py-1.5 text-[12px] leading-relaxed text-muted">
+                        {skill.note}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </Reveal>
+    </SectionShell>
   );
 };
 
